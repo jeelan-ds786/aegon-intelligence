@@ -1,0 +1,15 @@
+{
+  "description": "Stable, machine-readable failure categories for public contracts.",
+  "enum": [
+    "invalid_arguments",
+    "unauthorized",
+    "not_found",
+    "timeout",
+    "dependency_unavailable",
+    "rate_limited",
+    "internal_error",
+    "refused"
+  ],
+  "title": "ErrorCode",
+  "type": "string"
+}

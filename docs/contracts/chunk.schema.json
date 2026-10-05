@@ -1,0 +1,160 @@
+{
+  "$defs": {
+    "JsonValue": {},
+    "Modality": {
+      "description": "Content modalities supported by retrieval and ingestion.",
+      "enum": [
+        "text",
+        "image",
+        "pdf_page",
+        "table",
+        "audio_segment",
+        "video_segment"
+      ],
+      "title": "Modality",
+      "type": "string"
+    },
+    "Timecode": {
+      "additionalProperties": false,
+      "description": "Half-open media interval measured in seconds.",
+      "properties": {
+        "end_seconds": {
+          "exclusiveMinimum": 0,
+          "title": "End Seconds",
+          "type": "number"
+        },
+        "start_seconds": {
+          "minimum": 0,
+          "title": "Start Seconds",
+          "type": "number"
+        }
+      },
+      "required": [
+        "start_seconds",
+        "end_seconds"
+      ],
+      "title": "Timecode",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A tenant-scoped, independently retrievable content unit.",
+  "properties": {
+    "access_level": {
+      "maxLength": 64,
+      "minLength": 1,
+      "title": "Access Level",
+      "type": "string"
+    },
+    "content_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Content Sha256",
+      "type": "string"
+    },
+    "embedding_model": {
+      "maxLength": 512,
+      "minLength": 1,
+      "title": "Embedding Model",
+      "type": "string"
+    },
+    "embedding_version": {
+      "maxLength": 512,
+      "minLength": 1,
+      "title": "Embedding Version",
+      "type": "string"
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Id",
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": {
+        "$ref": "#/$defs/JsonValue"
+      },
+      "maxProperties": 64,
+      "title": "Metadata",
+      "type": "object"
+    },
+    "modality": {
+      "$ref": "#/$defs/Modality"
+    },
+    "page": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Page"
+    },
+    "parent_id": {
+      "anyOf": [
+        {
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Id"
+    },
+    "signature": {
+      "maxLength": 4096,
+      "minLength": 1,
+      "title": "Signature",
+      "type": "string"
+    },
+    "source_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Source Id",
+      "type": "string"
+    },
+    "tenant_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "title": "Tenant Id",
+      "type": "string"
+    },
+    "text": {
+      "maxLength": 100000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    },
+    "timecode": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Timecode"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "id",
+    "tenant_id",
+    "source_id",
+    "modality",
+    "text",
+    "embedding_model",
+    "embedding_version",
+    "content_sha256",
+    "signature",
+    "access_level"
+  ],
+  "title": "Chunk",
+  "type": "object"
+}

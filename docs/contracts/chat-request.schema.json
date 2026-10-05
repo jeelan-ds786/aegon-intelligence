@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "AttachmentRef": {
+      "additionalProperties": false,
+      "description": "Reference to an attachment already accepted by the platform.",
+      "properties": {
+        "id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "media_type": {
+          "maxLength": 255,
+          "minLength": 1,
+          "title": "Media Type",
+          "type": "string"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "maxLength": 255,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        }
+      },
+      "required": [
+        "id",
+        "media_type"
+      ],
+      "title": "AttachmentRef",
+      "type": "object"
+    },
+    "PageContext": {
+      "additionalProperties": false,
+      "description": "Bounded host-page context supplied by a trusted server adapter.",
+      "properties": {
+        "text": {
+          "maxLength": 20000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "maxLength": 512,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "uri": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "text"
+      ],
+      "title": "PageContext",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Tenant-neutral chat input; identity is added by the server.",
+  "properties": {
+    "attachments": {
+      "items": {
+        "$ref": "#/$defs/AttachmentRef"
+      },
+      "maxItems": 10,
+      "title": "Attachments",
+      "type": "array"
+    },
+    "page_context": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PageContext"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "question": {
+      "maxLength": 8000,
+      "minLength": 1,
+      "title": "Question",
+      "type": "string"
+    }
+  },
+  "required": [
+    "question"
+  ],
+  "title": "ChatRequest",
+  "type": "object"
+}

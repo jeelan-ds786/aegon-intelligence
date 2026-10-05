@@ -2,6 +2,7 @@
 .env
 .venv/
 .pytest_cache/
+.hypothesis/
 .ruff_cache/
 .pyright/
 __pycache__/
