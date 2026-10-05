@@ -1,0 +1,1 @@
+export const packageName = "@aegon/next-adapter" as const;

@@ -1,0 +1,1 @@
+export const packageName = "@aegon/indexer" as const;

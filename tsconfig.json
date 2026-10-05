@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/web" },
+    { "path": "./apps/adopter-example" },
+    { "path": "./packages/typescript/client-sdk" },
+    { "path": "./packages/typescript/react" },
+    { "path": "./packages/typescript/next-adapter" },
+    { "path": "./packages/typescript/indexer" }
+  ]
+}

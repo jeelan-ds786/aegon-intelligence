@@ -1,0 +1,45 @@
+[project]
+name = "aegon-rag"
+version = "0.0.0"
+description = "A multi-tenant, multimodal RAG platform."
+requires-python = "==3.12.*"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "pre-commit==4.3.0",
+    "pyright==1.1.405",
+    "pytest==8.4.2",
+    "ruff==0.13.3",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.workspace]
+members = [
+    "services/api",
+    "services/mcp",
+    "workers/ingestion",
+    "packages/python/aegon_common",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "SIM", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib --strict-config --strict-markers"
+testpaths = [
+    "services/api/tests",
+    "services/mcp/tests",
+    "workers/ingestion/tests",
+    "packages/python/aegon_common/tests",
+]

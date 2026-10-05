@@ -1,0 +1,10 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aegon-common"
+version = "0.0.0"
+description = "Shared Aegon-RAG Python contracts."
+requires-python = "==3.12.*"
+dependencies = []

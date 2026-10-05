@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/pyright/main/packages/vscode-pyright/schemas/pyrightconfig.schema.json",
+  "include": [
+    "services/api/src",
+    "services/api/tests",
+    "services/mcp/src",
+    "services/mcp/tests",
+    "workers/ingestion/src",
+    "workers/ingestion/tests",
+    "packages/python/aegon_common/src",
+    "packages/python/aegon_common/tests"
+  ],
+  "pythonVersion": "3.12",
+  "typeCheckingMode": "strict",
+  "venv": ".venv",
+  "venvPath": "."
+}

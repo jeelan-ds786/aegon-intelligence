@@ -1,0 +1,1 @@
+export const packageName = "@aegon/adopter-example" as const;
