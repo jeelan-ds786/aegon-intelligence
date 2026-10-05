@@ -1,0 +1,17 @@
+aegon/
+.DS_Store
+.env
+.venv/
+.pytest_cache/
+.ruff_cache/
+.pyright/
+__pycache__/
+*.py[cod]
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.next/
+.terraform/
+*.tfstate
+*.tfstate.*
