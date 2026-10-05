@@ -1,4 +1,3 @@
-aegon/
 .DS_Store
 .env
 .venv/
@@ -15,3 +14,4 @@ coverage/
 .terraform/
 *.tfstate
 *.tfstate.*
+aegon/
