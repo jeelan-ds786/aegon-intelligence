@@ -1,0 +1,87 @@
+{
+  "$defs": {
+    "Citation": {
+      "additionalProperties": false,
+      "description": "A precise, user-visible reference to supporting source content.",
+      "properties": {
+        "chunk_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "locator": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Locator",
+          "type": "string"
+        },
+        "quote_span": {
+          "$ref": "#/$defs/QuoteSpan"
+        },
+        "source_uri": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Source Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "source_uri",
+        "locator",
+        "quote_span"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "QuoteSpan": {
+      "additionalProperties": false,
+      "description": "Half-open character offsets into the cited chunk text.",
+      "properties": {
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "QuoteSpan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A bounded excerpt and citation selected to support an answer.",
+  "properties": {
+    "citation": {
+      "$ref": "#/$defs/Citation"
+    },
+    "relevance_score": {
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Relevance Score",
+      "type": "number"
+    },
+    "text": {
+      "maxLength": 100000,
+      "minLength": 1,
+      "title": "Text",
+      "type": "string"
+    }
+  },
+  "required": [
+    "citation",
+    "text",
+    "relevance_score"
+  ],
+  "title": "Evidence",
+  "type": "object"
+}

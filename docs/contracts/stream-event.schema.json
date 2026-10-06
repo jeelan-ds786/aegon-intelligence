@@ -1,0 +1,318 @@
+{
+  "$defs": {
+    "ChatResponse": {
+      "additionalProperties": false,
+      "description": "Grounded final answer returned after agent execution.",
+      "properties": {
+        "answer": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Answer",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 100,
+          "title": "Evidence",
+          "type": "array"
+        },
+        "id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "suggestions": {
+          "items": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Suggestions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "answer"
+      ],
+      "title": "ChatResponse",
+      "type": "object"
+    },
+    "Citation": {
+      "additionalProperties": false,
+      "description": "A precise, user-visible reference to supporting source content.",
+      "properties": {
+        "chunk_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Chunk Id",
+          "type": "string"
+        },
+        "locator": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Locator",
+          "type": "string"
+        },
+        "quote_span": {
+          "$ref": "#/$defs/QuoteSpan"
+        },
+        "source_uri": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Source Uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chunk_id",
+        "source_uri",
+        "locator",
+        "quote_span"
+      ],
+      "title": "Citation",
+      "type": "object"
+    },
+    "CitationEvent": {
+      "additionalProperties": false,
+      "description": "Publishes a citation as soon as it is available.",
+      "properties": {
+        "citation": {
+          "$ref": "#/$defs/Citation"
+        },
+        "type": {
+          "const": "citation",
+          "default": "citation",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "citation"
+      ],
+      "title": "CitationEvent",
+      "type": "object"
+    },
+    "DoneEvent": {
+      "additionalProperties": false,
+      "description": "Marks successful stream completion and carries the final response.",
+      "properties": {
+        "response": {
+          "$ref": "#/$defs/ChatResponse"
+        },
+        "type": {
+          "const": "done",
+          "default": "done",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "response"
+      ],
+      "title": "DoneEvent",
+      "type": "object"
+    },
+    "ErrorCode": {
+      "description": "Stable, machine-readable failure categories for public contracts.",
+      "enum": [
+        "invalid_arguments",
+        "unauthorized",
+        "not_found",
+        "timeout",
+        "dependency_unavailable",
+        "rate_limited",
+        "internal_error",
+        "refused"
+      ],
+      "title": "ErrorCode",
+      "type": "string"
+    },
+    "ErrorEvent": {
+      "additionalProperties": false,
+      "description": "Carries a stable error code and safe public message.",
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        "message": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "type": {
+          "const": "error",
+          "default": "error",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "title": "ErrorEvent",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "A bounded excerpt and citation selected to support an answer.",
+      "properties": {
+        "citation": {
+          "$ref": "#/$defs/Citation"
+        },
+        "relevance_score": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Relevance Score",
+          "type": "number"
+        },
+        "text": {
+          "maxLength": 100000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "citation",
+        "text",
+        "relevance_score"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "QuoteSpan": {
+      "additionalProperties": false,
+      "description": "Half-open character offsets into the cited chunk text.",
+      "properties": {
+        "end": {
+          "exclusiveMinimum": 0,
+          "title": "End",
+          "type": "integer"
+        },
+        "start": {
+          "minimum": 0,
+          "title": "Start",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "start",
+        "end"
+      ],
+      "title": "QuoteSpan",
+      "type": "object"
+    },
+    "StepEvent": {
+      "additionalProperties": false,
+      "description": "Reports a bounded, user-safe agent progress step.",
+      "properties": {
+        "step": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Step",
+          "type": "string"
+        },
+        "type": {
+          "const": "step",
+          "default": "step",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "step"
+      ],
+      "title": "StepEvent",
+      "type": "object"
+    },
+    "SuggestionEvent": {
+      "additionalProperties": false,
+      "description": "Publishes one grounded follow-up suggestion.",
+      "properties": {
+        "suggestion": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Suggestion",
+          "type": "string"
+        },
+        "type": {
+          "const": "suggestion",
+          "default": "suggestion",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "suggestion"
+      ],
+      "title": "SuggestionEvent",
+      "type": "object"
+    },
+    "TokenEvent": {
+      "additionalProperties": false,
+      "description": "Carries an incremental answer token.",
+      "properties": {
+        "token": {
+          "maxLength": 8000,
+          "minLength": 1,
+          "title": "Token",
+          "type": "string"
+        },
+        "type": {
+          "const": "token",
+          "default": "token",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "token"
+      ],
+      "title": "TokenEvent",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "citation": "#/$defs/CitationEvent",
+      "done": "#/$defs/DoneEvent",
+      "error": "#/$defs/ErrorEvent",
+      "step": "#/$defs/StepEvent",
+      "suggestion": "#/$defs/SuggestionEvent",
+      "token": "#/$defs/TokenEvent"
+    },
+    "propertyName": "type"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/StepEvent"
+    },
+    {
+      "$ref": "#/$defs/TokenEvent"
+    },
+    {
+      "$ref": "#/$defs/CitationEvent"
+    },
+    {
+      "$ref": "#/$defs/SuggestionEvent"
+    },
+    {
+      "$ref": "#/$defs/ErrorEvent"
+    },
+    {
+      "$ref": "#/$defs/DoneEvent"
+    }
+  ]
+}

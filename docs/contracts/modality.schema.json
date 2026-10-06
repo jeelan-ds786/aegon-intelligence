@@ -1,0 +1,13 @@
+{
+  "description": "Content modalities supported by retrieval and ingestion.",
+  "enum": [
+    "text",
+    "image",
+    "pdf_page",
+    "table",
+    "audio_segment",
+    "video_segment"
+  ],
+  "title": "Modality",
+  "type": "string"
+}
