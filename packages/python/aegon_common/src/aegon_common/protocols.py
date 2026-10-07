@@ -4,6 +4,8 @@ from collections.abc import Sequence
 from datetime import datetime
 from typing import Protocol
 
+from aegon_common.embeddings import EmbeddingVector
+
 
 class Embedder(Protocol):
     """Adapter contract for versioned text and image embeddings."""
@@ -17,9 +19,9 @@ class Embedder(Protocol):
     @property
     def version(self) -> str: ...
 
-    async def embed_texts(self, texts: Sequence[str]) -> Sequence[Sequence[float]]: ...
+    async def embed_texts(self, texts: Sequence[str]) -> Sequence[EmbeddingVector]: ...
 
-    async def embed_images(self, images: Sequence[bytes]) -> Sequence[Sequence[float]]: ...
+    async def embed_images(self, images: Sequence[bytes]) -> Sequence[EmbeddingVector]: ...
 
 
 class TextClock(Protocol):
