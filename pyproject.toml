@@ -7,11 +7,13 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-    "hypothesis==6.168.3",
-    "pre-commit==4.6.2",
-    "pyright==1.1.414",
-    "pytest==9.1.1",
-    "ruff==0.16.10",
+    "hypothesis==6.140.3",
+    "pre-commit==4.3.0",
+    "psycopg[binary]==3.2.10",
+    "pyright==1.1.405",
+    "pytest==8.4.2",
+    "pytest-docker==3.2.5",
+    "ruff==0.13.3",
 ]
 
 [tool.uv]
@@ -39,6 +41,7 @@ indent-style = "space"
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib --strict-config --strict-markers"
 testpaths = [
+    "infra/migrations/tests",
     "services/api/tests",
     "services/mcp/tests",
     "workers/ingestion/tests",

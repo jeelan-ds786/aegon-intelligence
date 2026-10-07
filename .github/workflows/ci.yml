@@ -44,6 +44,7 @@ jobs:
       - name: Test with coverage
         run: |
           uv run --with pytest-cov==7.0.0 pytest \
+            --cov=infra.migrations.migrate \
             --cov=services/api/src \
             --cov=services/mcp/src \
             --cov=workers/ingestion/src \
