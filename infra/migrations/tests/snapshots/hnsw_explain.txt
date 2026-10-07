@@ -1,0 +1,1 @@
+Limit -> Index Scan using chunks_embedding_hnsw_idx on chunks Order By: (embedding <=> '[1,0,0]'::vector) Filter: ((tenant_id = current_setting('app.tenant_id'::text)) AND (hashed SubPlan 2)) SubPlan 2 -> Index Only Scan using sources_approved_idx on sources Index Cond: (tenant_id = current_setting('app.tenant_id'::text))
