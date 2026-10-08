@@ -1,5 +1,14 @@
 """Shared Aegon-RAG Python contracts."""
 
+from aegon_common.embeddings import (
+    EmbedderError,
+    EmbeddingVector,
+    GeminiEmbedder,
+    GeminiEmbedderConfig,
+    HashingEmbedder,
+    HashingEmbedderConfig,
+    get_embedder,
+)
 from aegon_common.models import (
     AttachmentRef,
     ChatRequest,
@@ -33,9 +42,15 @@ __all__ = [
     "CitationEvent",
     "DoneEvent",
     "Embedder",
+    "EmbedderError",
+    "EmbeddingVector",
     "ErrorCode",
     "ErrorEvent",
     "Evidence",
+    "GeminiEmbedder",
+    "GeminiEmbedderConfig",
+    "HashingEmbedder",
+    "HashingEmbedderConfig",
     "IdGenerator",
     "Modality",
     "PageContext",
@@ -47,4 +62,5 @@ __all__ = [
     "Timecode",
     "TokenEvent",
     "__version__",
+    "get_embedder",
 ]

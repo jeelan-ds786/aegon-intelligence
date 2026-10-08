@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 from datetime import UTC, datetime
 
-from aegon_common import Embedder, IdGenerator, TextClock
+from aegon_common import Embedder, EmbeddingVector, IdGenerator, TextClock
 
 
 class FakeEmbedder:
@@ -9,11 +9,16 @@ class FakeEmbedder:
     dim = 2
     version = "1"
 
-    async def embed_texts(self, texts: Sequence[str]) -> Sequence[Sequence[float]]:
-        return [[float(len(text)), 0.0] for text in texts]
+    async def embed_texts(self, texts: Sequence[str]) -> Sequence[EmbeddingVector]:
+        return [
+            EmbeddingVector((float(len(text)), 0.0), self.model_id, self.version) for text in texts
+        ]
 
-    async def embed_images(self, images: Sequence[bytes]) -> Sequence[Sequence[float]]:
-        return [[float(len(image)), 0.0] for image in images]
+    async def embed_images(self, images: Sequence[bytes]) -> Sequence[EmbeddingVector]:
+        return [
+            EmbeddingVector((float(len(image)), 0.0), self.model_id, self.version)
+            for image in images
+        ]
 
 
 class FixedClock:
