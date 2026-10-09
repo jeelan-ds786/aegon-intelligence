@@ -1,0 +1,27 @@
+{
+  "guide.md": [
+    ["heading", "Quickstart", "line:4", 1, 1.0],
+    ["paragraph", "Install the package.", "lines:6-6", null, 1.0],
+    ["heading", "Run", "line:8", 2, 1.0],
+    ["paragraph", "Use the command.", "lines:10-10", null, 1.0]
+  ],
+  "component.mdx": [
+    ["paragraph", "Grounded answers", "lines:3-3", null, 1.0],
+    ["paragraph", "Approved evidence only.", "lines:6-6", null, 1.0]
+  ],
+  "article.html": [
+    ["heading", "Incident response", "h1:nth-of-type(1)", 1, 1.0],
+    ["paragraph", "Confirm impact before changing production.", "p:nth-of-type(1)", null, 1.0],
+    ["table", "Severity | Target\nCritical | 15 minutes", "table:nth-of-type(1)", null, 1.0]
+  ],
+  "export.json": [
+    ["heading", "Database recovery", "/documents/0/title", 1, 1.0],
+    ["paragraph", "Restore the latest verified backup.", "/documents/0/fields/body", null, 2.0],
+    ["paragraph", "database recovery backup", "/documents/0/fields/keywords", null, 0.5]
+  ],
+  "reference.md": [
+    ["heading", "API reference", "line:1", 1, 1.0],
+    ["table", "| Method | Path |\n| --- | --- |\n| GET | /health |", "lines:3-5", null, 1.0],
+    ["code", "```python\nresponse = client.get(\"/health\")\nassert response.status_code == 200\n```", "lines:7-10", null, 1.0]
+  ]
+}
