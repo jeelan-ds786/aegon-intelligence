@@ -1,0 +1,14 @@
+{
+  "schema_version": "1",
+  "documents": [
+    {
+      "id": "runbook-1",
+      "title": "Database recovery",
+      "fields": {
+        "body": "Restore the latest verified backup.",
+        "keywords": "database recovery backup",
+        "internal_note": "Not approved for retrieval."
+      }
+    }
+  ]
+}
