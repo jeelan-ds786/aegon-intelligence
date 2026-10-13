@@ -1,11 +1,21 @@
 from __future__ import annotations
 
+import asyncio
 import re
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import psycopg
 import pytest
+from aegon_api.retrieval import (
+    AsyncConnectionPool as RetrievalConnectionPool,
+)
+from aegon_api.retrieval import (
+    Ed25519ChunkVerifier,
+    HybridRetriever,
+    RetrievalConfig,
+    TenantContext,
+)
 from aegon_common.embeddings import EmbeddingVector
 from aegon_ingestion import (
     DocumentBlock,
@@ -16,17 +26,37 @@ from aegon_ingestion import (
 )
 from aegon_ingestion.postgres import PostgresIngestionRepository
 from aegon_ingestion.signing import SignedChunk, SignedManifest, sign_chunk, sign_manifest
+from cryptography.hazmat.primitives import serialization
+from psycopg_pool import AsyncConnectionPool
 
 from infra.migrations.migrate import discover_migrations, migrate, parse_args, render_sql
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
+    from collections.abc import Iterator, Sequence
 
     from pytest_docker.plugin import Services
 
 TEST_DIR = Path(__file__).parent
 MIGRATIONS_DIR = TEST_DIR.parent
 SNAPSHOT_PATH = TEST_DIR / "snapshots" / "hnsw_explain.txt"
+
+
+class _RetrievalEmbedder:
+    async def embed_texts(self, texts: Sequence[str]) -> tuple[EmbeddingVector, ...]:
+        assert texts
+        return (EmbeddingVector(values=(1.0, 0.0, 0.0), model_id="test", model_version="1"),)
+
+
+class _RetrievalKeys:
+    def __init__(self, tenant_id: str, key_id: str, public_key: bytes) -> None:
+        self._tenant_id = tenant_id
+        self._key_id = key_id
+        self._public_key = public_key
+
+    async def resolve(self, tenant_id: str, signer_key_id: str) -> bytes | None:
+        if (tenant_id, signer_key_id) == (self._tenant_id, self._key_id):
+            return self._public_key
+        return None
 
 
 @pytest.fixture(scope="session")
@@ -161,6 +191,158 @@ def test_vector_query_plan_uses_hnsw_index(migrated_database: str) -> None:
     expected = SNAPSHOT_PATH.read_text(encoding="utf-8").strip()
     assert "chunks_embedding_hnsw_idx" in normalized
     assert normalized == expected
+
+
+def test_hybrid_retrieval_seeded_acceptance(migrated_database: str) -> None:
+    tenant_a_signer = LocalSigner.from_private_bytes("tenant-a-key", b"a" * 32)
+    tenant_b_signer = LocalSigner.from_private_bytes("tenant-b-key", b"b" * 32)
+    seeded_chunks = (
+        (
+            sign_chunk(
+                tenant_id="tenant-a",
+                source_id="source-a",
+                chunk_id="answer",
+                content="Approved evidence explains tenant isolation.",
+                embedding=EmbeddingVector(
+                    values=(1.0, 0.0, 0.0), model_id="test", model_version="1"
+                ),
+                signer=tenant_a_signer,
+            ),
+            "private",
+            False,
+        ),
+        (
+            sign_chunk(
+                tenant_id="tenant-a",
+                source_id="source-a",
+                chunk_id="tampered",
+                content="Tampered evidence explains tenant isolation.",
+                embedding=EmbeddingVector(
+                    values=(1.0, 0.0, 0.0), model_id="test", model_version="1"
+                ),
+                signer=tenant_a_signer,
+            ),
+            "tampered",
+            True,
+        ),
+        (
+            sign_chunk(
+                tenant_id="tenant-a",
+                source_id="source-a",
+                chunk_id="weak",
+                content="Weak evidence explains tenant isolation.",
+                embedding=EmbeddingVector(
+                    values=(0.0, 1.0, 0.0), model_id="test", model_version="1"
+                ),
+                signer=tenant_a_signer,
+            ),
+            "weak",
+            False,
+        ),
+        (
+            sign_chunk(
+                tenant_id="tenant-b",
+                source_id="source-b",
+                chunk_id="foreign",
+                content="Foreign evidence explains tenant isolation.",
+                embedding=EmbeddingVector(
+                    values=(1.0, 0.0, 0.0), model_id="test", model_version="1"
+                ),
+                signer=tenant_b_signer,
+            ),
+            "foreign",
+            False,
+        ),
+    )
+    with psycopg.connect(migrated_database) as connection:
+        connection.execute(
+            "INSERT INTO tenants (id, name) VALUES ('tenant-a', 'A'), ('tenant-b', 'B')"
+        )
+        connection.execute(
+            """
+            INSERT INTO sources (id, tenant_id, uri, kind, checksum, status)
+            VALUES
+                ('source-a', 'tenant-a', 'https://a.test', 'html',
+                 decode(repeat('aa', 32), 'hex'), 'approved'),
+                ('source-b', 'tenant-b', 'https://b.test', 'html',
+                 decode(repeat('bb', 32), 'hex'), 'approved')
+            """
+        )
+        for chunk, access_level, tampered in seeded_chunks:
+            connection.execute(
+                """
+                INSERT INTO chunks (
+                    id, tenant_id, source_id, modality, content, content_sha256,
+                    signature, embedding, embedding_model, embedding_version,
+                    access_level, page, embedding_sha256, signer_key_id
+                ) VALUES (%s, %s, %s, 'text', %s, %s, %s, %s::vector, %s, %s,
+                          %s, 1, %s, %s)
+                """,
+                (
+                    chunk.chunk_id,
+                    chunk.tenant_id,
+                    chunk.source_id,
+                    chunk.content,
+                    bytes.fromhex(chunk.content_sha256),
+                    b"x" * 64 if tampered else chunk.signature,
+                    str(list(chunk.embedding)),
+                    chunk.embedding_model,
+                    chunk.embedding_version,
+                    access_level,
+                    bytes.fromhex(chunk.embedding_sha256),
+                    chunk.signer_key_id,
+                ),
+            )
+
+    public_key = tenant_a_signer.public_key.public_bytes(
+        serialization.Encoding.Raw, serialization.PublicFormat.Raw
+    )
+
+    async def exercise_retriever() -> None:
+        async def configure(connection: psycopg.AsyncConnection[tuple[object, ...]]) -> None:
+            await connection.execute("SET ROLE aegon_app")
+            await connection.commit()
+
+        pool = AsyncConnectionPool(
+            migrated_database,
+            min_size=1,
+            max_size=1,
+            open=False,
+            configure=configure,
+        )
+        await pool.open()
+        try:
+            retriever = HybridRetriever(
+                cast(RetrievalConnectionPool, pool),
+                _RetrievalEmbedder(),
+                Ed25519ChunkVerifier(_RetrievalKeys("tenant-a", "tenant-a-key", public_key)),
+                RetrievalConfig(similarity_floor=0.25),
+            )
+            known_answer = await retriever.retrieve(
+                "evidence tenant isolation", TenantContext("tenant-a", ("private",)), 1
+            )
+            cross_tenant = await retriever.retrieve(
+                "evidence tenant isolation", TenantContext("tenant-a", ("foreign",)), 1
+            )
+            tampered = await retriever.retrieve(
+                "evidence tenant isolation", TenantContext("tenant-a", ("tampered",)), 1
+            )
+            below_floor = await retriever.retrieve(
+                "evidence tenant isolation", TenantContext("tenant-a", ("weak",)), 1
+            )
+        finally:
+            await pool.close()
+
+        assert [item.citation.chunk_id for item in known_answer.evidence] == ["answer"]
+        assert known_answer.signal == "ok"
+        assert cross_tenant.signal == "insufficient_evidence"
+        assert cross_tenant.evidence == ()
+        assert tampered.signal == "insufficient_evidence"
+        assert tampered.evidence == ()
+        assert below_floor.signal == "insufficient_evidence"
+        assert below_floor.evidence == ()
+
+    asyncio.run(exercise_retriever())
 
 
 def test_failed_staging_swap_preserves_live_index(migrated_database: str) -> None:
