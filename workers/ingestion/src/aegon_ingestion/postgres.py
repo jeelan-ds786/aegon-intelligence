@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from collections.abc import Iterator, Sequence
+from collections.abc import Generator, Sequence
 from contextlib import contextmanager
 from typing import Any
 
@@ -206,7 +206,7 @@ class PostgresIngestionRepository:
             )
 
     @contextmanager
-    def _connection(self, tenant_id: str) -> Iterator[psycopg.Connection[Any]]:
+    def _connection(self, tenant_id: str) -> Generator[psycopg.Connection[Any]]:
         with psycopg.connect(self._database_url) as connection:
             connection.execute("SELECT set_config('app.tenant_id', %s, true)", (tenant_id,))
             yield connection
