@@ -114,6 +114,8 @@ class PinnedHttpsTransport:
         ),
     ) -> None:
         self._ssl_context = ssl_context or ssl.create_default_context()
+        if self._ssl_context.minimum_version < ssl.TLSVersion.TLSv1_2:
+            self._ssl_context.minimum_version = ssl.TLSVersion.TLSv1_2
         self._connection_port = connection_port
         self._socket_factory = socket_factory
 

@@ -307,9 +307,11 @@ def test_local_fake_server_exercises_redirects_robots_rate_and_pacing(
     )
     server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
     server_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    server_context.minimum_version = ssl.TLSVersion.TLSv1_2
     server_context.load_cert_chain(certificate_path, key_path)
     server.socket = server_context.wrap_socket(server.socket, server_side=True)
     client_context = ssl.create_default_context(cadata=certificate_pem.decode())
+    client_context.minimum_version = ssl.TLSVersion.TLSv1_2
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     try:
@@ -428,3 +430,12 @@ def test_transport_cannot_bypass_response_size_limit() -> None:
     crawler = _crawler(transport, FakeResolver(((PUBLIC_IP,), (PUBLIC_IP,))))
     with pytest.raises(ResponseRejectedError, match="exceeds configured maximum"):
         crawler.fetch(page_url)
+
+
+def test_pinned_transport_hardens_injected_tls_context() -> None:
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+    context.minimum_version = ssl.TLSVersion.MINIMUM_SUPPORTED
+
+    PinnedHttpsTransport(ssl_context=context)
+
+    assert context.minimum_version is ssl.TLSVersion.TLSv1_2
