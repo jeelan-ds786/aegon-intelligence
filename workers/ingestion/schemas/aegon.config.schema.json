@@ -1,0 +1,145 @@
+{
+  "$defs": {
+    "JsonExportConfig": {
+      "additionalProperties": false,
+      "description": "A root-confined JSON export and its allowlisted fields.",
+      "properties": {
+        "fields": {
+          "items": {
+            "$ref": "#/$defs/JsonFieldConfig"
+          },
+          "minItems": 1,
+          "title": "Fields",
+          "type": "array"
+        },
+        "path": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "fields"
+      ],
+      "title": "JsonExportConfig",
+      "type": "object"
+    },
+    "JsonFieldConfig": {
+      "additionalProperties": false,
+      "description": "An allowlisted JSON export field and retrieval weight.",
+      "properties": {
+        "name": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "weight": {
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "title": "Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "name",
+        "weight"
+      ],
+      "title": "JsonFieldConfig",
+      "type": "object"
+    },
+    "MarkdownGlob": {
+      "additionalProperties": false,
+      "description": "A root-confined Markdown glob and its mandatory metadata keys.",
+      "properties": {
+        "pattern": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Pattern",
+          "type": "string"
+        },
+        "required_frontmatter": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Frontmatter",
+          "type": "array"
+        }
+      },
+      "required": [
+        "pattern"
+      ],
+      "title": "MarkdownGlob",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Strict schema for host-controlled ingestion sources.",
+  "properties": {
+    "$schema": {
+      "anyOf": [
+        {
+          "maxLength": 2048,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "$Schema"
+    },
+    "json_export": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/JsonExportConfig"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "markdown": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/MarkdownGlob"
+      },
+      "title": "Markdown",
+      "type": "array"
+    },
+    "maximum_sitemap_urls": {
+      "default": 1000,
+      "maximum": 10000,
+      "minimum": 1,
+      "title": "Maximum Sitemap Urls",
+      "type": "integer"
+    },
+    "schema_version": {
+      "const": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "sitemap_url": {
+      "anyOf": [
+        {
+          "maxLength": 2048,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sitemap Url"
+    }
+  },
+  "required": [
+    "schema_version"
+  ],
+  "title": "AegonConfig",
+  "type": "object"
+}
