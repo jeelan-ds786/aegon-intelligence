@@ -1,4 +1,4 @@
-.PHONY: bootstrap lint typecheck test check serve serve-web
+.PHONY: bootstrap lint typecheck test evaluate-retrieval check serve serve-web
 
 UV := $(shell python3 -c 'import site; print(site.USER_BASE + "/bin/uv")')
 
@@ -22,6 +22,12 @@ typecheck:
 test:
 	.venv/bin/pytest
 	pnpm test
+
+evaluate-retrieval:
+	.venv/bin/python -m evaluations.retrieval.runner \
+		--dataset evaluations/retrieval/dataset \
+		--output-dir evaluations/results \
+		--baseline evaluations/results/retrieval-baseline.json
 
 check: lint typecheck test
 

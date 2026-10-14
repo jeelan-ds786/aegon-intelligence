@@ -55,6 +55,8 @@ jobs:
         env:
           DIFF_BASE: origin/${{ github.base_ref || github.event.repository.default_branch }}
         run: uv run --with diff-cover==9.7.1 diff-cover coverage.xml --compare-branch="$DIFF_BASE" --fail-under=90
+      - name: Evaluate retrieval regression
+        run: make evaluate-retrieval
 
   web:
     name: Web

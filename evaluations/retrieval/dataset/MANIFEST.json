@@ -1,0 +1,13 @@
+{
+  "dataset_name": "Python 3 standard library and tutorial documentation retrieval set",
+  "version": "1.0.0",
+  "corpus": "Python 3 documentation",
+  "corpus_urls": [
+    "https://docs.python.org/3/tutorial/",
+    "https://docs.python.org/3/library/"
+  ],
+  "questions": 100,
+  "answerable_questions": 80,
+  "unanswerable_questions": 20,
+  "queries_sha256": "0dfabf2afd80b0e96fdc83e685a8813858f216ba42e1984deaa83aa2bb24dd5e"
+}
