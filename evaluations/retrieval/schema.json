@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aegon retrieval evaluation row",
+  "type": "object",
+  "required": ["id", "query", "gold_chunk_ids", "gold_source_ids", "difficulty", "answerable"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^q-[0-9]{3}$"},
+    "query": {"type": "string", "minLength": 1},
+    "gold_chunk_ids": {"type": "array", "items": {"type": "string"}},
+    "gold_source_ids": {"type": "array", "items": {"type": "string"}},
+    "difficulty": {"enum": ["easy", "medium", "hard"]},
+    "answerable": {"type": "boolean"}
+  },
+  "additionalProperties": false
+}

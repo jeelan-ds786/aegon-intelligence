@@ -1,0 +1,100 @@
+{"id":"q-001","query":"What does the documentation say about indentation and compound statements?","gold_chunk_ids":["python-docs-01"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-002","query":"How does Python handle indentation and compound statements?","gold_chunk_ids":["python-docs-01"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-003","query":"Explain the documented rule for indentation and compound statements.","gold_chunk_ids":["python-docs-01"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-004","query":"Which Python feature is used for indentation and compound statements?","gold_chunk_ids":["python-docs-01"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-005","query":"What does the documentation say about if statements and for loops?","gold_chunk_ids":["python-docs-02"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-006","query":"How does Python handle if statements and for loops?","gold_chunk_ids":["python-docs-02"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-007","query":"Explain the documented rule for if statements and for loops.","gold_chunk_ids":["python-docs-02"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-008","query":"Which Python feature is used for if statements and for loops?","gold_chunk_ids":["python-docs-02"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-009","query":"What does the documentation say about function definitions and docstrings?","gold_chunk_ids":["python-docs-03"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-010","query":"How does Python handle function definitions and docstrings?","gold_chunk_ids":["python-docs-03"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-011","query":"Explain the documented rule for function definitions and docstrings.","gold_chunk_ids":["python-docs-03"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-012","query":"Which Python feature is used for function definitions and docstrings?","gold_chunk_ids":["python-docs-03"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-013","query":"What does the documentation say about default argument values?","gold_chunk_ids":["python-docs-04"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-014","query":"How does Python handle default argument values?","gold_chunk_ids":["python-docs-04"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-015","query":"Explain the documented rule for default argument values.","gold_chunk_ids":["python-docs-04"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-016","query":"Which Python feature is used for default argument values?","gold_chunk_ids":["python-docs-04"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-017","query":"What does the documentation say about list comprehensions?","gold_chunk_ids":["python-docs-05"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-018","query":"How does Python handle list comprehensions?","gold_chunk_ids":["python-docs-05"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-019","query":"Explain the documented rule for list comprehensions.","gold_chunk_ids":["python-docs-05"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-020","query":"Which Python feature is used for list comprehensions?","gold_chunk_ids":["python-docs-05"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-021","query":"What does the documentation say about dictionary keys?","gold_chunk_ids":["python-docs-06"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-022","query":"How does Python handle dictionary keys?","gold_chunk_ids":["python-docs-06"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-023","query":"Explain the documented rule for dictionary keys.","gold_chunk_ids":["python-docs-06"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-024","query":"Which Python feature is used for dictionary keys?","gold_chunk_ids":["python-docs-06"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-025","query":"What does the documentation say about immutable tuples?","gold_chunk_ids":["python-docs-07"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-026","query":"How does Python handle immutable tuples?","gold_chunk_ids":["python-docs-07"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-027","query":"Explain the documented rule for immutable tuples.","gold_chunk_ids":["python-docs-07"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-028","query":"Which Python feature is used for immutable tuples?","gold_chunk_ids":["python-docs-07"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-029","query":"What does the documentation say about formatted string literals?","gold_chunk_ids":["python-docs-08"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-030","query":"How does Python handle formatted string literals?","gold_chunk_ids":["python-docs-08"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-031","query":"Explain the documented rule for formatted string literals.","gold_chunk_ids":["python-docs-08"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-032","query":"Which Python feature is used for formatted string literals?","gold_chunk_ids":["python-docs-08"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-033","query":"What does the documentation say about context managers and with?","gold_chunk_ids":["python-docs-09"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-034","query":"How does Python handle context managers and with?","gold_chunk_ids":["python-docs-09"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-035","query":"Explain the documented rule for context managers and with.","gold_chunk_ids":["python-docs-09"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-036","query":"Which Python feature is used for context managers and with?","gold_chunk_ids":["python-docs-09"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-037","query":"What does the documentation say about try and except exceptions?","gold_chunk_ids":["python-docs-10"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-038","query":"How does Python handle try and except exceptions?","gold_chunk_ids":["python-docs-10"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-039","query":"Explain the documented rule for try and except exceptions.","gold_chunk_ids":["python-docs-10"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-040","query":"Which Python feature is used for try and except exceptions?","gold_chunk_ids":["python-docs-10"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-041","query":"What does the documentation say about finally cleanup?","gold_chunk_ids":["python-docs-11"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-042","query":"How does Python handle finally cleanup?","gold_chunk_ids":["python-docs-11"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-043","query":"Explain the documented rule for finally cleanup.","gold_chunk_ids":["python-docs-11"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-044","query":"Which Python feature is used for finally cleanup?","gold_chunk_ids":["python-docs-11"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-045","query":"What does the documentation say about Python modules?","gold_chunk_ids":["python-docs-12"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-046","query":"How does Python handle Python modules?","gold_chunk_ids":["python-docs-12"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-047","query":"Explain the documented rule for Python modules.","gold_chunk_ids":["python-docs-12"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-048","query":"Which Python feature is used for Python modules?","gold_chunk_ids":["python-docs-12"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-049","query":"What does the documentation say about the __name__ main idiom?","gold_chunk_ids":["python-docs-13"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-050","query":"How does Python handle the __name__ main idiom?","gold_chunk_ids":["python-docs-13"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"easy","answerable":true}
+{"id":"q-051","query":"Explain the documented rule for the __name__ main idiom.","gold_chunk_ids":["python-docs-13"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"medium","answerable":true}
+{"id":"q-052","query":"Which Python feature is used for the __name__ main idiom?","gold_chunk_ids":["python-docs-13"],"gold_source_ids":["python-docs-tutorial"],"difficulty":"hard","answerable":true}
+{"id":"q-053","query":"What does the documentation say about asyncio concurrency?","gold_chunk_ids":["python-docs-14"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-054","query":"How does Python handle asyncio concurrency?","gold_chunk_ids":["python-docs-14"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-055","query":"Explain the documented rule for asyncio concurrency.","gold_chunk_ids":["python-docs-14"],"gold_source_ids":["python-docs-library"],"difficulty":"medium","answerable":true}
+{"id":"q-056","query":"Which Python feature is used for asyncio concurrency?","gold_chunk_ids":["python-docs-14"],"gold_source_ids":["python-docs-library"],"difficulty":"hard","answerable":true}
+{"id":"q-057","query":"What does the documentation say about asyncio tasks?","gold_chunk_ids":["python-docs-15"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-058","query":"How does Python handle asyncio tasks?","gold_chunk_ids":["python-docs-15"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-059","query":"Explain the documented rule for asyncio tasks.","gold_chunk_ids":["python-docs-15"],"gold_source_ids":["python-docs-library"],"difficulty":"medium","answerable":true}
+{"id":"q-060","query":"Which Python feature is used for asyncio tasks?","gold_chunk_ids":["python-docs-15"],"gold_source_ids":["python-docs-library"],"difficulty":"hard","answerable":true}
+{"id":"q-061","query":"What does the documentation say about dataclasses?","gold_chunk_ids":["python-docs-16"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-062","query":"How does Python handle dataclasses?","gold_chunk_ids":["python-docs-16"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-063","query":"Explain the documented rule for dataclasses.","gold_chunk_ids":["python-docs-16"],"gold_source_ids":["python-docs-library"],"difficulty":"medium","answerable":true}
+{"id":"q-064","query":"Which Python feature is used for dataclasses?","gold_chunk_ids":["python-docs-16"],"gold_source_ids":["python-docs-library"],"difficulty":"hard","answerable":true}
+{"id":"q-065","query":"What does the documentation say about type aliases?","gold_chunk_ids":["python-docs-17"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-066","query":"How does Python handle type aliases?","gold_chunk_ids":["python-docs-17"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-067","query":"Explain the documented rule for type aliases.","gold_chunk_ids":["python-docs-17"],"gold_source_ids":["python-docs-library"],"difficulty":"medium","answerable":true}
+{"id":"q-068","query":"Which Python feature is used for type aliases?","gold_chunk_ids":["python-docs-17"],"gold_source_ids":["python-docs-library"],"difficulty":"hard","answerable":true}
+{"id":"q-069","query":"What does the documentation say about JSON serialization?","gold_chunk_ids":["python-docs-18"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-070","query":"How does Python handle JSON serialization?","gold_chunk_ids":["python-docs-18"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-071","query":"Explain the documented rule for JSON serialization.","gold_chunk_ids":["python-docs-18"],"gold_source_ids":["python-docs-library"],"difficulty":"medium","answerable":true}
+{"id":"q-072","query":"Which Python feature is used for JSON serialization?","gold_chunk_ids":["python-docs-18"],"gold_source_ids":["python-docs-library"],"difficulty":"hard","answerable":true}
+{"id":"q-073","query":"What does the documentation say about application logging?","gold_chunk_ids":["python-docs-19"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-074","query":"How does Python handle application logging?","gold_chunk_ids":["python-docs-19"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-075","query":"Explain the documented rule for application logging.","gold_chunk_ids":["python-docs-19"],"gold_source_ids":["python-docs-library"],"difficulty":"medium","answerable":true}
+{"id":"q-076","query":"Which Python feature is used for application logging?","gold_chunk_ids":["python-docs-19"],"gold_source_ids":["python-docs-library"],"difficulty":"hard","answerable":true}
+{"id":"q-077","query":"What does the documentation say about the unittest framework?","gold_chunk_ids":["python-docs-20"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-078","query":"How does Python handle the unittest framework?","gold_chunk_ids":["python-docs-20"],"gold_source_ids":["python-docs-library"],"difficulty":"easy","answerable":true}
+{"id":"q-079","query":"Explain the documented rule for the unittest framework.","gold_chunk_ids":["python-docs-20"],"gold_source_ids":["python-docs-library"],"difficulty":"medium","answerable":true}
+{"id":"q-080","query":"Which Python feature is used for the unittest framework?","gold_chunk_ids":["python-docs-20"],"gold_source_ids":["python-docs-library"],"difficulty":"hard","answerable":true}
+{"id":"q-081","query":"Which Python documentation rule covers this unrelated topic 0?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-082","query":"Which Python documentation rule covers this unrelated topic 1?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-083","query":"Which Python documentation rule covers this unrelated topic 2?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-084","query":"Which Python documentation rule covers this unrelated topic 3?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-085","query":"Which Python documentation rule covers this unrelated topic 4?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-086","query":"Which Python documentation rule covers this unrelated topic 5?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-087","query":"Which Python documentation rule covers this unrelated topic 6?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-088","query":"Which Python documentation rule covers this unrelated topic 7?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-089","query":"Which Python documentation rule covers this unrelated topic 8?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-090","query":"Which Python documentation rule covers this unrelated topic 9?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-091","query":"Which Python documentation rule covers this unrelated topic 10?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-092","query":"Which Python documentation rule covers this unrelated topic 11?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-093","query":"Which Python documentation rule covers this unrelated topic 12?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-094","query":"Which Python documentation rule covers this unrelated topic 13?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-095","query":"Which Python documentation rule covers this unrelated topic 14?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-096","query":"Which Python documentation rule covers this unrelated topic 15?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-097","query":"Which Python documentation rule covers this unrelated topic 16?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-098","query":"Which Python documentation rule covers this unrelated topic 17?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-099","query":"Which Python documentation rule covers this unrelated topic 18?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
+{"id":"q-100","query":"Which Python documentation rule covers this unrelated topic 19?","gold_chunk_ids":[],"gold_source_ids":[],"difficulty":"hard","answerable":false}
