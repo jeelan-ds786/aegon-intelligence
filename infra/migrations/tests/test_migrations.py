@@ -84,7 +84,7 @@ def database_url(docker_services: Services) -> str:
 def migrated_database(database_url: str) -> Iterator[str]:
     migrate(database_url, "up", embedding_dimension=3)
     yield database_url
-    migrate(database_url, "down", embedding_dimension=3, steps=3)
+    migrate(database_url, "down", embedding_dimension=3, steps=4)
 
 
 def test_migrations_apply_down_and_reapply(database_url: str) -> None:
@@ -93,18 +93,18 @@ def test_migrations_apply_down_and_reapply(database_url: str) -> None:
         versions = connection.execute(
             "SELECT version FROM schema_migrations ORDER BY version"
         ).fetchall()
-        assert versions == [(1,), (2,), (3,)]
+        assert versions == [(1,), (2,), (3,), (4,)]
         assert connection.execute("SELECT to_regclass('public.chunks')").fetchone() == ("chunks",)
 
-    migrate(database_url, "down", embedding_dimension=3, steps=3)
+    migrate(database_url, "down", embedding_dimension=3, steps=4)
     with psycopg.connect(database_url) as connection:
         assert connection.execute("SELECT count(*) FROM schema_migrations").fetchone() == (0,)
         assert connection.execute("SELECT to_regclass('public.chunks')").fetchone() == (None,)
 
     migrate(database_url, "up", embedding_dimension=3)
     with psycopg.connect(database_url) as connection:
-        assert connection.execute("SELECT count(*) FROM schema_migrations").fetchone() == (3,)
-    migrate(database_url, "down", embedding_dimension=3, steps=3)
+        assert connection.execute("SELECT count(*) FROM schema_migrations").fetchone() == (4,)
+    migrate(database_url, "down", embedding_dimension=3, steps=4)
 
 
 def test_app_role_cannot_bypass_tenant_rls(migrated_database: str) -> None:
@@ -149,6 +149,55 @@ def test_app_role_cannot_bypass_tenant_rls(migrated_database: str) -> None:
 
         assert rows == [("chunk-a", "tenant-a")]
         assert role == (False, False)
+
+
+def test_app_role_accesses_only_hashed_sessions_through_functions(
+    migrated_database: str,
+) -> None:
+    with psycopg.connect(migrated_database) as connection:
+        connection.execute("INSERT INTO tenants (id, name) VALUES ('tenant-a', 'A')")
+        connection.execute("SET ROLE aegon_app")
+        direct_access = connection.execute(
+            "SELECT has_table_privilege(current_user, 'api_sessions', 'SELECT')"
+        ).fetchone()
+        connection.execute(
+            """
+            SELECT api_session_create(
+                decode(repeat('11', 32), 'hex'),
+                decode(repeat('22', 32), 'hex'),
+                'tenant-a',
+                ARRAY['chat:read'],
+                clock_timestamp() + interval '30 minutes'
+            )
+            """
+        )
+        session = connection.execute(
+            "SELECT encode(csrf_hash, 'hex'), tenant_id, scopes "
+            "FROM api_session_get(decode(repeat('11', 32), 'hex'))"
+        ).fetchone()
+        connection.execute(
+            """
+            SELECT api_session_create(
+                decode(repeat('33', 32), 'hex'),
+                decode(repeat('44', 32), 'hex'),
+                'tenant-a',
+                ARRAY['chat:read'],
+                clock_timestamp() - interval '1 second'
+            )
+            """
+        )
+        expired = connection.execute(
+            "SELECT * FROM api_session_get(decode(repeat('33', 32), 'hex'))"
+        ).fetchone()
+        connection.execute("SELECT api_session_revoke(decode(repeat('11', 32), 'hex'))")
+        revoked = connection.execute(
+            "SELECT * FROM api_session_get(decode(repeat('11', 32), 'hex'))"
+        ).fetchone()
+
+    assert direct_access == (False,)
+    assert session == ("22" * 32, "tenant-a", ["chat:read"])
+    assert expired is None
+    assert revoked is None
 
 
 def test_vector_query_plan_uses_hnsw_index(migrated_database: str) -> None:

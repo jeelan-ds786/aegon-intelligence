@@ -1,5 +1,6 @@
 """Aegon-RAG API service."""
 
+from aegon_api.app import create_app
 from aegon_api.retrieval import (
     Ed25519ChunkVerifier,
     HybridRetriever,
@@ -20,5 +21,6 @@ __all__ = [
     "RetrievalTimings",
     "TenantContext",
     "__version__",
+    "create_app",
     "reciprocal_rank_fusion",
 ]
