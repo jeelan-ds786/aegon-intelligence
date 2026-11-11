@@ -8,6 +8,7 @@ dependencies = []
 [dependency-groups]
 dev = [
     "hypothesis==6.170.14",
+    "httpx2==2.16.0",
     "pre-commit==4.7.0",
     "psycopg[binary]==3.3.8",
     "pyright==1.1.414",
