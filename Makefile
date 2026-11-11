@@ -32,7 +32,7 @@ evaluate-retrieval:
 check: lint typecheck test
 
 serve:
-	@echo "API service implementation is intentionally deferred."
+	.venv/bin/aegon-api
 
 serve-web:
 	@echo "Web application implementation is intentionally deferred."
