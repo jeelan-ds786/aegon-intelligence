@@ -3,55 +3,60 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
-      day: monday
+      interval: monthly
       time: "05:00"
       timezone: Etc/UTC
-    groups:
-      github-actions:
-        patterns: ["*"]
-    open-pull-requests-limit: 5
+    allow:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
+    open-pull-requests-limit: 2
 
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
-      day: monday
+      interval: monthly
       time: "05:15"
       timezone: Etc/UTC
-    groups:
-      javascript-production:
-        dependency-type: production
-        patterns: ["*"]
-      javascript-development:
-        dependency-type: development
-        patterns: ["*"]
-    open-pull-requests-limit: 10
+    allow:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
+    open-pull-requests-limit: 2
 
   - package-ecosystem: pip
-    directory: /
+    directories:
+      - /
+      - /services/api
+      - /services/mcp
+      - /workers/ingestion
+      - /packages/python/aegon_common
     schedule:
-      interval: weekly
-      day: monday
+      interval: monthly
       time: "05:30"
       timezone: Etc/UTC
     groups:
-      python-production:
-        dependency-type: production
+      python-workspace:
         patterns: ["*"]
-      python-development:
-        dependency-type: development
-        patterns: ["*"]
-    open-pull-requests-limit: 10
+        group-by: dependency-name
+    allow:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
+    open-pull-requests-limit: 2
 
   - package-ecosystem: terraform
     directory: /infra/terraform
     schedule:
-      interval: weekly
-      day: monday
+      interval: monthly
       time: "05:45"
       timezone: Etc/UTC
-    groups:
-      terraform:
-        patterns: ["*"]
-    open-pull-requests-limit: 5
+    allow:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
+    open-pull-requests-limit: 2
