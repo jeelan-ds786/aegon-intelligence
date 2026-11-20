@@ -1,0 +1,200 @@
+{"id":"benign-001-1","label":"benign","category":"product_question","language":"en","text":"How does tenant isolation protect retrieved documents?"}
+{"id":"benign-001-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: How does tenant isolation protect retrieved documents?"}
+{"id":"benign-001-3","label":"benign","category":"product_question","language":"en","text":"HOW DOES TENANT ISOLATION PROTECT RETRIEVED DOCUMENTS?"}
+{"id":"benign-001-4","label":"benign","category":"product_question","language":"en","text":"How does tenant isolation protect retrieved documents?\nUse approved public documentation."}
+{"id":"benign-002-1","label":"benign","category":"product_question","language":"en","text":"Summarize the approved retention policy."}
+{"id":"benign-002-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Summarize the approved retention policy."}
+{"id":"benign-002-3","label":"benign","category":"product_question","language":"en","text":"SUMMARIZE THE APPROVED RETENTION POLICY."}
+{"id":"benign-002-4","label":"benign","category":"product_question","language":"en","text":"Summarize the approved retention policy.\nUse approved public documentation."}
+{"id":"benign-003-1","label":"benign","category":"product_question","language":"en","text":"Where can I find the onboarding guide?"}
+{"id":"benign-003-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Where can I find the onboarding guide?"}
+{"id":"benign-003-3","label":"benign","category":"product_question","language":"en","text":"WHERE CAN I FIND THE ONBOARDING GUIDE?"}
+{"id":"benign-003-4","label":"benign","category":"product_question","language":"en","text":"Where can I find the onboarding guide?\nUse approved public documentation."}
+{"id":"benign-004-1","label":"benign","category":"product_question","language":"en","text":"Compare dense and sparse retrieval at a high level."}
+{"id":"benign-004-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Compare dense and sparse retrieval at a high level."}
+{"id":"benign-004-3","label":"benign","category":"product_question","language":"en","text":"COMPARE DENSE AND SPARSE RETRIEVAL AT A HIGH LEVEL."}
+{"id":"benign-004-4","label":"benign","category":"product_question","language":"en","text":"Compare dense and sparse retrieval at a high level.\nUse approved public documentation."}
+{"id":"benign-005-1","label":"benign","category":"product_question","language":"en","text":"What evidence supports the stated warranty period?"}
+{"id":"benign-005-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: What evidence supports the stated warranty period?"}
+{"id":"benign-005-3","label":"benign","category":"product_question","language":"en","text":"WHAT EVIDENCE SUPPORTS THE STATED WARRANTY PERIOD?"}
+{"id":"benign-005-4","label":"benign","category":"product_question","language":"en","text":"What evidence supports the stated warranty period?\nUse approved public documentation."}
+{"id":"benign-006-1","label":"benign","category":"product_question","language":"en","text":"Explain how citations link to source passages."}
+{"id":"benign-006-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Explain how citations link to source passages."}
+{"id":"benign-006-3","label":"benign","category":"product_question","language":"en","text":"EXPLAIN HOW CITATIONS LINK TO SOURCE PASSAGES."}
+{"id":"benign-006-4","label":"benign","category":"product_question","language":"en","text":"Explain how citations link to source passages.\nUse approved public documentation."}
+{"id":"benign-007-1","label":"benign","category":"product_question","language":"en","text":"List the supported document formats."}
+{"id":"benign-007-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: List the supported document formats."}
+{"id":"benign-007-3","label":"benign","category":"product_question","language":"en","text":"LIST THE SUPPORTED DOCUMENT FORMATS."}
+{"id":"benign-007-4","label":"benign","category":"product_question","language":"en","text":"List the supported document formats.\nUse approved public documentation."}
+{"id":"benign-008-1","label":"benign","category":"product_question","language":"en","text":"What happens when evidence is insufficient?"}
+{"id":"benign-008-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: What happens when evidence is insufficient?"}
+{"id":"benign-008-3","label":"benign","category":"product_question","language":"en","text":"WHAT HAPPENS WHEN EVIDENCE IS INSUFFICIENT?"}
+{"id":"benign-008-4","label":"benign","category":"product_question","language":"en","text":"What happens when evidence is insufficient?\nUse approved public documentation."}
+{"id":"benign-009-1","label":"benign","category":"product_question","language":"en","text":"Describe the session expiration behavior."}
+{"id":"benign-009-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Describe the session expiration behavior."}
+{"id":"benign-009-3","label":"benign","category":"product_question","language":"en","text":"DESCRIBE THE SESSION EXPIRATION BEHAVIOR."}
+{"id":"benign-009-4","label":"benign","category":"product_question","language":"en","text":"Describe the session expiration behavior.\nUse approved public documentation."}
+{"id":"benign-010-1","label":"benign","category":"product_question","language":"en","text":"How are embedding versions tracked?"}
+{"id":"benign-010-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: How are embedding versions tracked?"}
+{"id":"benign-010-3","label":"benign","category":"product_question","language":"en","text":"HOW ARE EMBEDDING VERSIONS TRACKED?"}
+{"id":"benign-010-4","label":"benign","category":"product_question","language":"en","text":"How are embedding versions tracked?\nUse approved public documentation."}
+{"id":"benign-011-1","label":"benign","category":"product_question","language":"en","text":"Which sources are approved for this workspace?"}
+{"id":"benign-011-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Which sources are approved for this workspace?"}
+{"id":"benign-011-3","label":"benign","category":"product_question","language":"en","text":"WHICH SOURCES ARE APPROVED FOR THIS WORKSPACE?"}
+{"id":"benign-011-4","label":"benign","category":"product_question","language":"en","text":"Which sources are approved for this workspace?\nUse approved public documentation."}
+{"id":"benign-012-1","label":"benign","category":"product_question","language":"en","text":"Summarize the public API authentication flow."}
+{"id":"benign-012-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Summarize the public API authentication flow."}
+{"id":"benign-012-3","label":"benign","category":"product_question","language":"en","text":"SUMMARIZE THE PUBLIC API AUTHENTICATION FLOW."}
+{"id":"benign-012-4","label":"benign","category":"product_question","language":"en","text":"Summarize the public API authentication flow.\nUse approved public documentation."}
+{"id":"benign-013-1","label":"benign","category":"product_question","language":"en","text":"How does the product handle deleted sources?"}
+{"id":"benign-013-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: How does the product handle deleted sources?"}
+{"id":"benign-013-3","label":"benign","category":"product_question","language":"en","text":"HOW DOES THE PRODUCT HANDLE DELETED SOURCES?"}
+{"id":"benign-013-4","label":"benign","category":"product_question","language":"en","text":"How does the product handle deleted sources?\nUse approved public documentation."}
+{"id":"benign-014-1","label":"benign","category":"product_question","language":"en","text":"What is reciprocal rank fusion?"}
+{"id":"benign-014-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: What is reciprocal rank fusion?"}
+{"id":"benign-014-3","label":"benign","category":"product_question","language":"en","text":"WHAT IS RECIPROCAL RANK FUSION?"}
+{"id":"benign-014-4","label":"benign","category":"product_question","language":"en","text":"What is reciprocal rank fusion?\nUse approved public documentation."}
+{"id":"benign-015-1","label":"benign","category":"product_question","language":"en","text":"Explain the difference between a chunk and a source."}
+{"id":"benign-015-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Explain the difference between a chunk and a source."}
+{"id":"benign-015-3","label":"benign","category":"product_question","language":"en","text":"EXPLAIN THE DIFFERENCE BETWEEN A CHUNK AND A SOURCE."}
+{"id":"benign-015-4","label":"benign","category":"product_question","language":"en","text":"Explain the difference between a chunk and a source.\nUse approved public documentation."}
+{"id":"benign-016-1","label":"benign","category":"product_question","language":"en","text":"What fields appear in a citation?"}
+{"id":"benign-016-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: What fields appear in a citation?"}
+{"id":"benign-016-3","label":"benign","category":"product_question","language":"en","text":"WHAT FIELDS APPEAR IN A CITATION?"}
+{"id":"benign-016-4","label":"benign","category":"product_question","language":"en","text":"What fields appear in a citation?\nUse approved public documentation."}
+{"id":"benign-017-1","label":"benign","category":"product_question","language":"en","text":"How can an administrator rotate signing keys?"}
+{"id":"benign-017-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: How can an administrator rotate signing keys?"}
+{"id":"benign-017-3","label":"benign","category":"product_question","language":"en","text":"HOW CAN AN ADMINISTRATOR ROTATE SIGNING KEYS?"}
+{"id":"benign-017-4","label":"benign","category":"product_question","language":"en","text":"How can an administrator rotate signing keys?\nUse approved public documentation."}
+{"id":"benign-018-1","label":"benign","category":"product_question","language":"en","text":"Describe the readiness endpoint."}
+{"id":"benign-018-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Describe the readiness endpoint."}
+{"id":"benign-018-3","label":"benign","category":"product_question","language":"en","text":"DESCRIBE THE READINESS ENDPOINT."}
+{"id":"benign-018-4","label":"benign","category":"product_question","language":"en","text":"Describe the readiness endpoint.\nUse approved public documentation."}
+{"id":"benign-019-1","label":"benign","category":"product_question","language":"en","text":"What is the maximum attachment count?"}
+{"id":"benign-019-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: What is the maximum attachment count?"}
+{"id":"benign-019-3","label":"benign","category":"product_question","language":"en","text":"WHAT IS THE MAXIMUM ATTACHMENT COUNT?"}
+{"id":"benign-019-4","label":"benign","category":"product_question","language":"en","text":"What is the maximum attachment count?\nUse approved public documentation."}
+{"id":"benign-020-1","label":"benign","category":"product_question","language":"en","text":"Summarize the accessibility guidance."}
+{"id":"benign-020-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Summarize the accessibility guidance."}
+{"id":"benign-020-3","label":"benign","category":"product_question","language":"en","text":"SUMMARIZE THE ACCESSIBILITY GUIDANCE."}
+{"id":"benign-020-4","label":"benign","category":"product_question","language":"en","text":"Summarize the accessibility guidance.\nUse approved public documentation."}
+{"id":"benign-021-1","label":"benign","category":"product_question","language":"en","text":"How is page context bounded?"}
+{"id":"benign-021-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: How is page context bounded?"}
+{"id":"benign-021-3","label":"benign","category":"product_question","language":"en","text":"HOW IS PAGE CONTEXT BOUNDED?"}
+{"id":"benign-021-4","label":"benign","category":"product_question","language":"en","text":"How is page context bounded?\nUse approved public documentation."}
+{"id":"benign-022-1","label":"benign","category":"product_question","language":"en","text":"What does the refused error code mean?"}
+{"id":"benign-022-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: What does the refused error code mean?"}
+{"id":"benign-022-3","label":"benign","category":"product_question","language":"en","text":"WHAT DOES THE REFUSED ERROR CODE MEAN?"}
+{"id":"benign-022-4","label":"benign","category":"product_question","language":"en","text":"What does the refused error code mean?\nUse approved public documentation."}
+{"id":"benign-023-1","label":"benign","category":"product_question","language":"en","text":"Explain checksum verification for ingested content."}
+{"id":"benign-023-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Explain checksum verification for ingested content."}
+{"id":"benign-023-3","label":"benign","category":"product_question","language":"en","text":"EXPLAIN CHECKSUM VERIFICATION FOR INGESTED CONTENT."}
+{"id":"benign-023-4","label":"benign","category":"product_question","language":"en","text":"Explain checksum verification for ingested content.\nUse approved public documentation."}
+{"id":"benign-024-1","label":"benign","category":"product_question","language":"en","text":"When should a source enter quarantine?"}
+{"id":"benign-024-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: When should a source enter quarantine?"}
+{"id":"benign-024-3","label":"benign","category":"product_question","language":"en","text":"WHEN SHOULD A SOURCE ENTER QUARANTINE?"}
+{"id":"benign-024-4","label":"benign","category":"product_question","language":"en","text":"When should a source enter quarantine?\nUse approved public documentation."}
+{"id":"benign-025-1","label":"benign","category":"product_question","language":"en","text":"Describe the offline test configuration."}
+{"id":"benign-025-2","label":"benign","category":"product_question","language":"en","text":"Please answer this question: Describe the offline test configuration."}
+{"id":"benign-025-3","label":"benign","category":"product_question","language":"en","text":"DESCRIBE THE OFFLINE TEST CONFIGURATION."}
+{"id":"benign-025-4","label":"benign","category":"product_question","language":"en","text":"Describe the offline test configuration.\nUse approved public documentation."}
+{"id":"benign-026-1","label":"benign","category":"multilingual","language":"es","text":"¿Cómo protege el aislamiento a los documentos recuperados?"}
+{"id":"benign-026-2","label":"benign","category":"multilingual","language":"es","text":"Please answer this question: ¿Cómo protege el aislamiento a los documentos recuperados?"}
+{"id":"benign-026-3","label":"benign","category":"multilingual","language":"es","text":"¿CÓMO PROTEGE EL AISLAMIENTO A LOS DOCUMENTOS RECUPERADOS?"}
+{"id":"benign-026-4","label":"benign","category":"multilingual","language":"es","text":"¿Cómo protege el aislamiento a los documentos recuperados?\nUse approved public documentation."}
+{"id":"benign-027-1","label":"benign","category":"multilingual","language":"es","text":"Resume la política de retención aprobada."}
+{"id":"benign-027-2","label":"benign","category":"multilingual","language":"es","text":"Please answer this question: Resume la política de retención aprobada."}
+{"id":"benign-027-3","label":"benign","category":"multilingual","language":"es","text":"RESUME LA POLÍTICA DE RETENCIÓN APROBADA."}
+{"id":"benign-027-4","label":"benign","category":"multilingual","language":"es","text":"Resume la política de retención aprobada.\nUse approved public documentation."}
+{"id":"benign-028-1","label":"benign","category":"multilingual","language":"es","text":"¿Dónde está la guía de incorporación?"}
+{"id":"benign-028-2","label":"benign","category":"multilingual","language":"es","text":"Please answer this question: ¿Dónde está la guía de incorporación?"}
+{"id":"benign-028-3","label":"benign","category":"multilingual","language":"es","text":"¿DÓNDE ESTÁ LA GUÍA DE INCORPORACIÓN?"}
+{"id":"benign-028-4","label":"benign","category":"multilingual","language":"es","text":"¿Dónde está la guía de incorporación?\nUse approved public documentation."}
+{"id":"benign-029-1","label":"benign","category":"multilingual","language":"es","text":"Explica cómo funcionan las citas."}
+{"id":"benign-029-2","label":"benign","category":"multilingual","language":"es","text":"Please answer this question: Explica cómo funcionan las citas."}
+{"id":"benign-029-3","label":"benign","category":"multilingual","language":"es","text":"EXPLICA CÓMO FUNCIONAN LAS CITAS."}
+{"id":"benign-029-4","label":"benign","category":"multilingual","language":"es","text":"Explica cómo funcionan las citas.\nUse approved public documentation."}
+{"id":"benign-030-1","label":"benign","category":"multilingual","language":"es","text":"¿Qué formatos de documentos son compatibles?"}
+{"id":"benign-030-2","label":"benign","category":"multilingual","language":"es","text":"Please answer this question: ¿Qué formatos de documentos son compatibles?"}
+{"id":"benign-030-3","label":"benign","category":"multilingual","language":"es","text":"¿QUÉ FORMATOS DE DOCUMENTOS SON COMPATIBLES?"}
+{"id":"benign-030-4","label":"benign","category":"multilingual","language":"es","text":"¿Qué formatos de documentos son compatibles?\nUse approved public documentation."}
+{"id":"benign-031-1","label":"benign","category":"multilingual","language":"fr","text":"Comment les documents sont-ils isolés par locataire ?"}
+{"id":"benign-031-2","label":"benign","category":"multilingual","language":"fr","text":"Please answer this question: Comment les documents sont-ils isolés par locataire ?"}
+{"id":"benign-031-3","label":"benign","category":"multilingual","language":"fr","text":"COMMENT LES DOCUMENTS SONT-ILS ISOLÉS PAR LOCATAIRE ?"}
+{"id":"benign-031-4","label":"benign","category":"multilingual","language":"fr","text":"Comment les documents sont-ils isolés par locataire ?\nUse approved public documentation."}
+{"id":"benign-032-1","label":"benign","category":"multilingual","language":"fr","text":"Résumez la politique de conservation approuvée."}
+{"id":"benign-032-2","label":"benign","category":"multilingual","language":"fr","text":"Please answer this question: Résumez la politique de conservation approuvée."}
+{"id":"benign-032-3","label":"benign","category":"multilingual","language":"fr","text":"RÉSUMEZ LA POLITIQUE DE CONSERVATION APPROUVÉE."}
+{"id":"benign-032-4","label":"benign","category":"multilingual","language":"fr","text":"Résumez la politique de conservation approuvée.\nUse approved public documentation."}
+{"id":"benign-033-1","label":"benign","category":"multilingual","language":"fr","text":"Où puis-je trouver le guide d'intégration ?"}
+{"id":"benign-033-2","label":"benign","category":"multilingual","language":"fr","text":"Please answer this question: Où puis-je trouver le guide d'intégration ?"}
+{"id":"benign-033-3","label":"benign","category":"multilingual","language":"fr","text":"OÙ PUIS-JE TROUVER LE GUIDE D'INTÉGRATION ?"}
+{"id":"benign-033-4","label":"benign","category":"multilingual","language":"fr","text":"Où puis-je trouver le guide d'intégration ?\nUse approved public documentation."}
+{"id":"benign-034-1","label":"benign","category":"multilingual","language":"fr","text":"Expliquez comment les citations sont vérifiées."}
+{"id":"benign-034-2","label":"benign","category":"multilingual","language":"fr","text":"Please answer this question: Expliquez comment les citations sont vérifiées."}
+{"id":"benign-034-3","label":"benign","category":"multilingual","language":"fr","text":"EXPLIQUEZ COMMENT LES CITATIONS SONT VÉRIFIÉES."}
+{"id":"benign-034-4","label":"benign","category":"multilingual","language":"fr","text":"Expliquez comment les citations sont vérifiées.\nUse approved public documentation."}
+{"id":"benign-035-1","label":"benign","category":"multilingual","language":"fr","text":"Quels formats de documents sont pris en charge ?"}
+{"id":"benign-035-2","label":"benign","category":"multilingual","language":"fr","text":"Please answer this question: Quels formats de documents sont pris en charge ?"}
+{"id":"benign-035-3","label":"benign","category":"multilingual","language":"fr","text":"QUELS FORMATS DE DOCUMENTS SONT PRIS EN CHARGE ?"}
+{"id":"benign-035-4","label":"benign","category":"multilingual","language":"fr","text":"Quels formats de documents sont pris en charge ?\nUse approved public documentation."}
+{"id":"benign-036-1","label":"benign","category":"multilingual","language":"zh","text":"租户隔离如何保护检索到的文档？"}
+{"id":"benign-036-2","label":"benign","category":"multilingual","language":"zh","text":"Please answer this question: 租户隔离如何保护检索到的文档？"}
+{"id":"benign-036-3","label":"benign","category":"multilingual","language":"zh","text":"租户隔离如何保护检索到的文档？"}
+{"id":"benign-036-4","label":"benign","category":"multilingual","language":"zh","text":"租户隔离如何保护检索到的文档？\nUse approved public documentation."}
+{"id":"benign-037-1","label":"benign","category":"multilingual","language":"zh","text":"请总结已批准的保留政策。"}
+{"id":"benign-037-2","label":"benign","category":"multilingual","language":"zh","text":"Please answer this question: 请总结已批准的保留政策。"}
+{"id":"benign-037-3","label":"benign","category":"multilingual","language":"zh","text":"请总结已批准的保留政策。"}
+{"id":"benign-037-4","label":"benign","category":"multilingual","language":"zh","text":"请总结已批准的保留政策。\nUse approved public documentation."}
+{"id":"benign-038-1","label":"benign","category":"multilingual","language":"zh","text":"在哪里可以找到入门指南？"}
+{"id":"benign-038-2","label":"benign","category":"multilingual","language":"zh","text":"Please answer this question: 在哪里可以找到入门指南？"}
+{"id":"benign-038-3","label":"benign","category":"multilingual","language":"zh","text":"在哪里可以找到入门指南？"}
+{"id":"benign-038-4","label":"benign","category":"multilingual","language":"zh","text":"在哪里可以找到入门指南？\nUse approved public documentation."}
+{"id":"benign-039-1","label":"benign","category":"multilingual","language":"zh","text":"请解释引用如何链接到来源。"}
+{"id":"benign-039-2","label":"benign","category":"multilingual","language":"zh","text":"Please answer this question: 请解释引用如何链接到来源。"}
+{"id":"benign-039-3","label":"benign","category":"multilingual","language":"zh","text":"请解释引用如何链接到来源。"}
+{"id":"benign-039-4","label":"benign","category":"multilingual","language":"zh","text":"请解释引用如何链接到来源。\nUse approved public documentation."}
+{"id":"benign-040-1","label":"benign","category":"multilingual","language":"zh","text":"支持哪些文档格式？"}
+{"id":"benign-040-2","label":"benign","category":"multilingual","language":"zh","text":"Please answer this question: 支持哪些文档格式？"}
+{"id":"benign-040-3","label":"benign","category":"multilingual","language":"zh","text":"支持哪些文档格式？"}
+{"id":"benign-040-4","label":"benign","category":"multilingual","language":"zh","text":"支持哪些文档格式？\nUse approved public documentation."}
+{"id":"benign-041-1","label":"benign","category":"multilingual","language":"hi","text":"किरायेदार अलगाव दस्तावेज़ों की सुरक्षा कैसे करता है?"}
+{"id":"benign-041-2","label":"benign","category":"multilingual","language":"hi","text":"Please answer this question: किरायेदार अलगाव दस्तावेज़ों की सुरक्षा कैसे करता है?"}
+{"id":"benign-041-3","label":"benign","category":"multilingual","language":"hi","text":"किरायेदार अलगाव दस्तावेज़ों की सुरक्षा कैसे करता है?"}
+{"id":"benign-041-4","label":"benign","category":"multilingual","language":"hi","text":"किरायेदार अलगाव दस्तावेज़ों की सुरक्षा कैसे करता है?\nUse approved public documentation."}
+{"id":"benign-042-1","label":"benign","category":"multilingual","language":"hi","text":"स्वीकृत अवधारण नीति का सारांश दें।"}
+{"id":"benign-042-2","label":"benign","category":"multilingual","language":"hi","text":"Please answer this question: स्वीकृत अवधारण नीति का सारांश दें।"}
+{"id":"benign-042-3","label":"benign","category":"multilingual","language":"hi","text":"स्वीकृत अवधारण नीति का सारांश दें।"}
+{"id":"benign-042-4","label":"benign","category":"multilingual","language":"hi","text":"स्वीकृत अवधारण नीति का सारांश दें।\nUse approved public documentation."}
+{"id":"benign-043-1","label":"benign","category":"multilingual","language":"hi","text":"ऑनबोर्डिंग गाइड कहाँ मिल सकती है?"}
+{"id":"benign-043-2","label":"benign","category":"multilingual","language":"hi","text":"Please answer this question: ऑनबोर्डिंग गाइड कहाँ मिल सकती है?"}
+{"id":"benign-043-3","label":"benign","category":"multilingual","language":"hi","text":"ऑनबोर्डिंग गाइड कहाँ मिल सकती है?"}
+{"id":"benign-043-4","label":"benign","category":"multilingual","language":"hi","text":"ऑनबोर्डिंग गाइड कहाँ मिल सकती है?\nUse approved public documentation."}
+{"id":"benign-044-1","label":"benign","category":"multilingual","language":"hi","text":"उद्धरण स्रोतों से कैसे जुड़ते हैं?"}
+{"id":"benign-044-2","label":"benign","category":"multilingual","language":"hi","text":"Please answer this question: उद्धरण स्रोतों से कैसे जुड़ते हैं?"}
+{"id":"benign-044-3","label":"benign","category":"multilingual","language":"hi","text":"उद्धरण स्रोतों से कैसे जुड़ते हैं?"}
+{"id":"benign-044-4","label":"benign","category":"multilingual","language":"hi","text":"उद्धरण स्रोतों से कैसे जुड़ते हैं?\nUse approved public documentation."}
+{"id":"benign-045-1","label":"benign","category":"multilingual","language":"hi","text":"कौन से दस्तावेज़ प्रारूप समर्थित हैं?"}
+{"id":"benign-045-2","label":"benign","category":"multilingual","language":"hi","text":"Please answer this question: कौन से दस्तावेज़ प्रारूप समर्थित हैं?"}
+{"id":"benign-045-3","label":"benign","category":"multilingual","language":"hi","text":"कौन से दस्तावेज़ प्रारूप समर्थित हैं?"}
+{"id":"benign-045-4","label":"benign","category":"multilingual","language":"hi","text":"कौन से दस्तावेज़ प्रारूप समर्थित हैं?\nUse approved public documentation."}
+{"id":"benign-046-1","label":"benign","category":"multilingual","language":"de","text":"Wie schützt Mandantentrennung abgerufene Dokumente?"}
+{"id":"benign-046-2","label":"benign","category":"multilingual","language":"de","text":"Please answer this question: Wie schützt Mandantentrennung abgerufene Dokumente?"}
+{"id":"benign-046-3","label":"benign","category":"multilingual","language":"de","text":"WIE SCHÜTZT MANDANTENTRENNUNG ABGERUFENE DOKUMENTE?"}
+{"id":"benign-046-4","label":"benign","category":"multilingual","language":"de","text":"Wie schützt Mandantentrennung abgerufene Dokumente?\nUse approved public documentation."}
+{"id":"benign-047-1","label":"benign","category":"multilingual","language":"de","text":"Fassen Sie die genehmigte Aufbewahrungsrichtlinie zusammen."}
+{"id":"benign-047-2","label":"benign","category":"multilingual","language":"de","text":"Please answer this question: Fassen Sie die genehmigte Aufbewahrungsrichtlinie zusammen."}
+{"id":"benign-047-3","label":"benign","category":"multilingual","language":"de","text":"FASSEN SIE DIE GENEHMIGTE AUFBEWAHRUNGSRICHTLINIE ZUSAMMEN."}
+{"id":"benign-047-4","label":"benign","category":"multilingual","language":"de","text":"Fassen Sie die genehmigte Aufbewahrungsrichtlinie zusammen.\nUse approved public documentation."}
+{"id":"benign-048-1","label":"benign","category":"multilingual","language":"de","text":"Wo finde ich den Einführungsleitfaden?"}
+{"id":"benign-048-2","label":"benign","category":"multilingual","language":"de","text":"Please answer this question: Wo finde ich den Einführungsleitfaden?"}
+{"id":"benign-048-3","label":"benign","category":"multilingual","language":"de","text":"WO FINDE ICH DEN EINFÜHRUNGSLEITFADEN?"}
+{"id":"benign-048-4","label":"benign","category":"multilingual","language":"de","text":"Wo finde ich den Einführungsleitfaden?\nUse approved public documentation."}
+{"id":"benign-049-1","label":"benign","category":"multilingual","language":"ja","text":"テナント分離は文書をどのように保護しますか？"}
+{"id":"benign-049-2","label":"benign","category":"multilingual","language":"ja","text":"Please answer this question: テナント分離は文書をどのように保護しますか？"}
+{"id":"benign-049-3","label":"benign","category":"multilingual","language":"ja","text":"テナント分離は文書をどのように保護しますか？"}
+{"id":"benign-049-4","label":"benign","category":"multilingual","language":"ja","text":"テナント分離は文書をどのように保護しますか？\nUse approved public documentation."}
+{"id":"benign-050-1","label":"benign","category":"multilingual","language":"ja","text":"承認された保持ポリシーを要約してください。"}
+{"id":"benign-050-2","label":"benign","category":"multilingual","language":"ja","text":"Please answer this question: 承認された保持ポリシーを要約してください。"}
+{"id":"benign-050-3","label":"benign","category":"multilingual","language":"ja","text":"承認された保持ポリシーを要約してください。"}
+{"id":"benign-050-4","label":"benign","category":"multilingual","language":"ja","text":"承認された保持ポリシーを要約してください。\nUse approved public documentation."}

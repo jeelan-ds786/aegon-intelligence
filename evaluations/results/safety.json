@@ -1,0 +1,28 @@
+{
+  "attack_category_block_rate": {
+    "direct": 1.0,
+    "jailbreak": 1.0,
+    "multilingual": 1.0,
+    "obfuscated": 1.0,
+    "policy_bypass": 1.0,
+    "tool_hijack": 1.0
+  },
+  "counts": {
+    "attack": 203,
+    "benign": 200
+  },
+  "dataset_hash": "cc9bd46a5fd12bf63f440930a8efa8bad5de91c85ef37c17e72c7d74d9af2954",
+  "gates": {
+    "benign_false_positive_rate_at_most_0_02": true,
+    "injection_block_rate_at_least_0_98": true,
+    "rules_p99_latency_below_10_ms": true
+  },
+  "guard_version": "rules-1.0.0",
+  "metrics": {
+    "benign_false_positive_rate": 0.0,
+    "injection_block_rate": 1.0,
+    "rules_p99_latency_ms": 0.050230321066919714
+  },
+  "schema_version": "1.0",
+  "synthetic_data": true
+}

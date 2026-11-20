@@ -1,4 +1,4 @@
-.PHONY: bootstrap lint typecheck test evaluate-retrieval check serve serve-web
+.PHONY: bootstrap lint typecheck test evaluate-retrieval evaluate-safety check serve serve-web
 
 UV := $(shell python3 -c 'import site; print(site.USER_BASE + "/bin/uv")')
 
@@ -28,6 +28,11 @@ evaluate-retrieval:
 		--dataset evaluations/retrieval/dataset \
 		--output-dir evaluations/results \
 		--baseline evaluations/results/retrieval-baseline.json
+
+evaluate-safety:
+	.venv/bin/python -m evaluations.safety.runner \
+		--dataset evaluations/safety \
+		--output evaluations/results/safety.json
 
 check: lint typecheck test
 
