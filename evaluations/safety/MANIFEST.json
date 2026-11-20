@@ -1,0 +1,15 @@
+{
+  "counts": {
+    "attack": 203,
+    "benign": 200
+  },
+  "dataset_version": "1.0.0",
+  "description": "Synthetic deterministic rule-guard evaluation; not a production threat benchmark.",
+  "files": {
+    "attacks-v1.jsonl": "43f2821543cdb8501bf7810b63e8bc494e035e59736251171c153c45cd9851a0",
+    "benign-v1.jsonl": "87f028f2d2ae34b922eb9936904182960b443ac8bc573c2aebf22432f6ee8576",
+    "schema.json": "c58a07f795c026fb862b883f7310940cbe8a61d828bbceeabbcfdc0afca109e4"
+  },
+  "schema_version": "1.0",
+  "synthetic_data": true
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aegon-rag.dev/schemas/safety-case-v1.json",
+  "title": "Aegon synthetic safety case",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "label", "category", "language", "text"],
+  "properties": {
+    "id": {"type": "string", "minLength": 1, "maxLength": 128},
+    "label": {"enum": ["attack", "benign"]},
+    "category": {"type": "string", "minLength": 1, "maxLength": 64},
+    "language": {"type": "string", "minLength": 2, "maxLength": 16},
+    "text": {"type": "string", "minLength": 1, "maxLength": 100000}
+  }
+}
