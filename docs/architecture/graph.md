@@ -83,8 +83,9 @@ graph TD;
   graph steps, while the second explicitly bounds rewrite loops.
 - Offline and CI construction injects `FakeLlm` and `HashingEmbedder`; it does
   not require cloud credentials.
-- Retrieval, generation, and tools are topology stubs. Guards, refusal, and
-  escalation are executable safety behavior.
+- Retrieval and tools remain topology stubs. Generation and verification use
+  schema-constrained LLM calls, strict citation checks, and extractive fallback.
+  Guards, refusal, and escalation are executable safety behavior.
 
 Regenerate this page with:
 

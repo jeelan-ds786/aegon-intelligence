@@ -3,9 +3,19 @@
 from __future__ import annotations
 
 import asyncio
+import re
 from collections.abc import Awaitable, Callable, Mapping
-from typing import Literal
+from typing import Literal, cast
 
+from aegon_common.models import Citation, Evidence, QuoteSpan
+
+from aegon_api.generation import (
+    ClaimForVerification,
+    GeneratedAnswer,
+    VerificationResult,
+    generation_request,
+    verification_request,
+)
 from aegon_api.graph.dependencies import GraphDependencies, NodeCharge
 from aegon_api.graph.state import AgentState
 from aegon_api.guards import GuardVerdict
@@ -89,7 +99,12 @@ async def _rerank(state: AgentState, _: GraphDependencies) -> StateUpdate:
 
 
 async def _grade(state: AgentState, _: GraphDependencies) -> StateUpdate:
-    return {"grade": "pass" if state.get("guarded_evidence") else "insufficient"}
+    if not state.get("guarded_evidence"):
+        return {
+            "grade": "insufficient",
+            "refusal_reason": "approved_evidence_unavailable",
+        }
+    return {"grade": "pass"}
 
 
 async def _tools(state: AgentState, _: GraphDependencies) -> StateUpdate:
@@ -105,16 +120,146 @@ async def _confirm_action(state: AgentState, _: GraphDependencies) -> StateUpdat
 
 async def _generate(state: AgentState, dependencies: GraphDependencies) -> StateUpdate:
     evidence = state.get("guarded_evidence", [])
-    answer = await dependencies.llm.generate(
+    if not evidence:
+        return {
+            "generated_sentences": [],
+            "refusal_reason": "approved_evidence_unavailable",
+        }
+    remaining_tokens = state["max_tokens"] - state["tokens_used"]
+    if remaining_tokens < 1:
+        return {"refusal_reason": "turn_budget_exceeded"}
+    request, trace = generation_request(
         state.get("rewritten_query", state["question"]),
-        tuple(item.text for item in evidence),
+        tuple((item.citation.chunk_id, item.text) for item in evidence),
+        max_output_tokens=min(dependencies.generation_max_tokens, remaining_tokens),
     )
-    return {"answer": answer}
+    response = await dependencies.llm.complete(request)
+    generated = GeneratedAnswer.model_validate_json(response.content)
+    valid_ids = {item.citation.chunk_id for item in evidence}
+    sentences = [
+        sentence
+        for sentence in generated.answer_sentences
+        if all(chunk_id in valid_ids for chunk_id in sentence.chunk_ids)
+    ]
+    update: StateUpdate = {
+        "generated_sentences": sentences,
+        "prompt_traces": [*state.get("prompt_traces", []), trace],
+        "tokens_used": state["tokens_used"] + response.usage.total_tokens,
+        "cost_microusd_used": state["cost_microusd_used"] + response.usage.cost_microusd,
+    }
+    if generated.answer_sentences and not sentences:
+        update["refusal_reason"] = "generated_citations_invalid"
+    elif not sentences:
+        update["refusal_reason"] = "grounding_requirements_not_met"
+    return update
 
 
-async def _verify(state: AgentState, _: GraphDependencies) -> StateUpdate:
-    verification = "pass" if state.get("answer") and state.get("guarded_evidence") else "fail"
-    return {"verification": verification}
+async def _verify(state: AgentState, dependencies: GraphDependencies) -> StateUpdate:
+    if state.get("refusal_reason"):
+        return {"verification": "fail"}
+    evidence = state.get("guarded_evidence", [])
+    sentences = state.get("generated_sentences", [])
+    if not evidence or not sentences:
+        return {
+            "verification": "fail",
+            "refusal_reason": "grounding_requirements_not_met",
+        }
+    claims = tuple(
+        ClaimForVerification(
+            claim_id=f"claim-{index}",
+            text=sentence.text,
+            chunk_ids=sentence.chunk_ids,
+        )
+        for index, sentence in enumerate(sentences)
+    )
+    evidence_by_id = {item.citation.chunk_id: item for item in evidence}
+    cited_ids = {chunk_id for claim in claims for chunk_id in claim.chunk_ids}
+    remaining_tokens = state["max_tokens"] - state["tokens_used"]
+    if remaining_tokens < 1:
+        return {"verification": "fail", "refusal_reason": "turn_budget_exceeded"}
+    request, trace = verification_request(
+        claims,
+        tuple(
+            (chunk_id, evidence_by_id[chunk_id].text)
+            for chunk_id in sorted(cited_ids)
+            if chunk_id in evidence_by_id
+        ),
+        max_output_tokens=min(dependencies.verification_max_tokens, remaining_tokens),
+    )
+    response = await dependencies.llm.complete(request)
+    result = VerificationResult.model_validate_json(response.content)
+    verdicts = {verdict.claim_id: verdict for verdict in result.claims}
+    supported_text: list[str] = []
+    citations: list[Citation] = []
+    unsupported: list[str] = []
+    for claim in claims:
+        verdict = verdicts.get(claim.claim_id)
+        if (
+            verdict is None
+            or not verdict.supported
+            or verdict.chunk_id is None
+            or verdict.quote is None
+            or verdict.chunk_id not in claim.chunk_ids
+            or verdict.chunk_id not in evidence_by_id
+        ):
+            unsupported.append(claim.text)
+            continue
+        item = evidence_by_id[verdict.chunk_id]
+        quote_start = item.text.find(verdict.quote)
+        if quote_start < 0:
+            unsupported.append(claim.text)
+            continue
+        supported_text.append(claim.text)
+        citations.append(
+            item.citation.model_copy(
+                update={
+                    "quote_span": QuoteSpan(
+                        start=quote_start,
+                        end=quote_start + len(verdict.quote),
+                    )
+                }
+            )
+        )
+    support_ratio = len(supported_text) / len(claims)
+    if support_ratio < dependencies.verification_support_threshold:
+        answer, fallback_citation = _extractive_fallback(evidence)
+        supported_text = [answer]
+        citations = [fallback_citation]
+    update: StateUpdate = {
+        "answer": " ".join(supported_text),
+        "answer_citations": _dedupe_citations(citations),
+        "unsupported_claims": unsupported,
+        "verification": "pass",
+        "prompt_traces": [*state.get("prompt_traces", []), trace],
+        "tokens_used": state["tokens_used"] + response.usage.total_tokens,
+        "cost_microusd_used": state["cost_microusd_used"] + response.usage.cost_microusd,
+    }
+    return update
+
+
+def _extractive_fallback(evidence: list[Evidence]) -> tuple[str, Citation]:
+    item = evidence[0]
+    match = re.search(r".+?(?:[.!?](?=\s|$)|$)", item.text, flags=re.DOTALL)
+    if match is None or not match.group().strip():
+        raise ValueError("approved evidence cannot produce an extractive fallback")
+    quote = match.group().strip()
+    start = item.text.find(quote)
+    citation = item.citation.model_copy(
+        update={"quote_span": QuoteSpan(start=start, end=start + len(quote))}
+    )
+    return quote, citation
+
+
+def _dedupe_citations(citations: list[Citation]) -> list[Citation]:
+    unique: dict[tuple[str, int, int], Citation] = {}
+    for citation in citations:
+        key = (
+            citation.chunk_id,
+            citation.quote_span.start,
+            citation.quote_span.end,
+        )
+        unique[key] = citation
+    return list(unique.values())
 
 
 async def _output_guard(state: AgentState, dependencies: GraphDependencies) -> StateUpdate:
@@ -195,10 +340,19 @@ def _bind_node(
         ):
             async with asyncio.timeout(dependencies.node_timeout_seconds):
                 update = await implementation(state, dependencies)
+        tokens_used = cast(int, update.pop("tokens_used", state["tokens_used"])) + charge.tokens
+        cost_used = (
+            cast(int, update.pop("cost_microusd_used", state["cost_microusd_used"]))
+            + charge.cost_microusd
+        )
+        if (
+            tokens_used > state["max_tokens"] or cost_used > state["max_cost_microusd"]
+        ) and node_name not in {"refuse", "escalate"}:
+            update["refusal_reason"] = "turn_budget_exceeded"
         return {
             **update,
-            "tokens_used": state["tokens_used"] + charge.tokens,
-            "cost_microusd_used": state["cost_microusd_used"] + charge.cost_microusd,
+            "tokens_used": tokens_used,
+            "cost_microusd_used": cost_used,
             "node_trace": [*state["node_trace"], node_name],
         }
 

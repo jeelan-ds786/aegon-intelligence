@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import asyncio
-from collections.abc import Callable, Sequence
+from collections.abc import Callable
 from pathlib import Path
 from typing import cast
 
@@ -27,6 +27,7 @@ from aegon_api.graph.routing import (
     after_verify,
 )
 from aegon_api.graph.state import AgentState
+from aegon_api.llm import LlmRequest, LlmResponse, LlmUsage
 from aegon_common.embeddings import HashingEmbedder, HashingEmbedderConfig
 from aegon_common.models import Citation, Evidence, QuoteSpan
 from langgraph.checkpoint.memory import InMemorySaver
@@ -35,10 +36,13 @@ type EdgeFunction = Callable[[AgentState], NodeDestination]
 
 
 class _SlowLlm:
-    async def generate(self, prompt: str, evidence: Sequence[str]) -> str:
-        del prompt, evidence
+    async def complete(self, request: LlmRequest) -> LlmResponse:
+        del request
         await asyncio.sleep(0.05)
-        return "too late"
+        return LlmResponse(
+            content='{"answer_sentences":[]}',
+            usage=LlmUsage(input_tokens=0, output_tokens=0, cost_microusd=0),
+        )
 
 
 def _context(conversation_id: str = "conversation-1") -> ServerContext:
@@ -182,7 +186,7 @@ def test_checkpoint_resume_after_retrieve_matches_uninterrupted_result() -> None
     assert partial["node_trace"][-1] == "retrieve"
     assert snapshot.next == ("evidence_guard",)
     assert resumed == expected
-    assert resumed["final_output"] == "Grounded answer from 1 approved evidence item(s)."
+    assert resumed["final_output"] == "The approved retention period is 30 days."
 
 
 def test_execution_config_composes_checkpoint_thread_id_and_recursion_limit() -> None:
