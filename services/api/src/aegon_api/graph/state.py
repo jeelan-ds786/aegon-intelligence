@@ -5,7 +5,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Literal, Required, TypedDict
 
-from aegon_common.models import Evidence
+from aegon_common.models import Citation, Evidence
+
+from aegon_api.generation import AnswerSentence, PromptTrace
 
 type Route = Literal["retrieve", "tools", "escalate"]
 type Grade = Literal["pass", "retry", "insufficient"]
@@ -53,6 +55,10 @@ class AgentState(TypedDict, total=False):
     grade: Grade
     action_required: bool
     action_confirmed: bool
+    generated_sentences: list[AnswerSentence]
+    prompt_traces: list[PromptTrace]
+    answer_citations: list[Citation]
+    unsupported_claims: list[str]
     answer: str
     verification: Verification
     refusal_reason: str
@@ -94,5 +100,6 @@ def create_initial_state(
         cost_microusd_used=0,
         rewrite_count=0,
         node_trace=[],
+        prompt_traces=[],
         evidence=list(evidence),
     )

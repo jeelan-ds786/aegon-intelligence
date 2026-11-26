@@ -2,19 +2,14 @@
 
 from __future__ import annotations
 
-from collections.abc import AsyncGenerator, Sequence
+from collections.abc import AsyncGenerator
 from contextlib import AbstractAsyncContextManager, asynccontextmanager
 from dataclasses import dataclass, field
 from typing import Protocol
 
 from aegon_api.guards import EvidenceGuard, InputGuard, OutputGuard
+from aegon_api.llm import LlmClient
 from aegon_api.retrieval import TextEmbedder
-
-
-class AgentLlm(Protocol):
-    """Bounded generation interface used by graph nodes."""
-
-    async def generate(self, prompt: str, evidence: Sequence[str]) -> str: ...
 
 
 class NodeSpanHook(Protocol):
@@ -27,18 +22,6 @@ class NodeSpanHook(Protocol):
         tenant_id: str,
         conversation_id: str,
     ) -> AbstractAsyncContextManager[None]: ...
-
-
-class FakeLlm:
-    """Deterministic fake used by offline tests and CI."""
-
-    async def generate(self, prompt: str, evidence: Sequence[str]) -> str:
-        del prompt
-        return (
-            f"Grounded answer from {len(evidence)} approved evidence item(s)."
-            if evidence
-            else "No grounded answer is available."
-        )
 
 
 class NoOpSpanHook:
@@ -70,15 +53,22 @@ class NodeCharge:
 class GraphDependencies:
     """Explicit graph dependencies; credentials belong inside adapters, never state."""
 
-    llm: AgentLlm
+    llm: LlmClient
     embedder: TextEmbedder
     input_guard: InputGuard = field(default_factory=InputGuard)
     evidence_guard: EvidenceGuard = field(default_factory=EvidenceGuard)
     output_guard: OutputGuard = field(default_factory=OutputGuard)
     span_hook: NodeSpanHook = field(default_factory=NoOpSpanHook)
     node_timeout_seconds: float = 10.0
+    generation_max_tokens: int = 1_000
+    verification_max_tokens: int = 1_000
+    verification_support_threshold: float = 0.8
     node_charges: dict[str, NodeCharge] = field(default_factory=lambda: {})
 
     def __post_init__(self) -> None:
         if self.node_timeout_seconds <= 0:
             raise ValueError("node_timeout_seconds must be positive")
+        if self.generation_max_tokens < 1 or self.verification_max_tokens < 1:
+            raise ValueError("LLM output token bounds must be positive")
+        if not 0 < self.verification_support_threshold <= 1:
+            raise ValueError("verification_support_threshold must be in (0, 1]")

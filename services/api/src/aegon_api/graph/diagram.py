@@ -7,7 +7,8 @@ from pathlib import Path
 from aegon_common.embeddings import HashingEmbedder, HashingEmbedderConfig
 
 from aegon_api.graph.builder import build_graph
-from aegon_api.graph.dependencies import FakeLlm, GraphDependencies
+from aegon_api.graph.dependencies import GraphDependencies
+from aegon_api.llm import FakeLlm
 
 _INTRODUCTION = """# Agent graph
 
@@ -33,8 +34,9 @@ _INVARIANTS = """
   graph steps, while the second explicitly bounds rewrite loops.
 - Offline and CI construction injects `FakeLlm` and `HashingEmbedder`; it does
   not require cloud credentials.
-- Retrieval, generation, and tools are topology stubs. Guards, refusal, and
-  escalation are executable safety behavior.
+- Retrieval and tools remain topology stubs. Generation and verification use
+  schema-constrained LLM calls, strict citation checks, and extractive fallback.
+  Guards, refusal, and escalation are executable safety behavior.
 
 Regenerate this page with:
 

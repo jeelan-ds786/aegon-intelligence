@@ -7,8 +7,6 @@ from aegon_api.graph.builder import (
     postgres_graph,
 )
 from aegon_api.graph.dependencies import (
-    AgentLlm,
-    FakeLlm,
     GraphDependencies,
     NodeCharge,
     NodeSpanHook,
@@ -16,14 +14,17 @@ from aegon_api.graph.dependencies import (
 )
 from aegon_api.graph.nodes import NODES
 from aegon_api.graph.state import AgentState, ServerContext, create_initial_state
+from aegon_api.llm import FakeLlm, GeminiClient, LlmClient, OllamaClient
 
 __all__ = [
     "DEFAULT_RECURSION_LIMIT",
     "NODES",
-    "AgentLlm",
     "AgentState",
     "FakeLlm",
+    "GeminiClient",
     "GraphDependencies",
+    "LlmClient",
+    "OllamaClient",
     "NodeCharge",
     "NodeSpanHook",
     "NoOpSpanHook",
