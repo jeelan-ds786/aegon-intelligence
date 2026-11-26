@@ -88,13 +88,13 @@ def _dependencies(
         (after_route, {"route": "tools"}, "tools"),
         (after_route, {"escalation_reason": "review"}, "escalate"),
         (after_evidence_guard, {}, "rerank"),
-        (after_grade, {"grade": "pass"}, "generate"),
-        (after_grade, {"grade": "retry", "rewrite_count": 1}, "rewrite"),
-        (after_grade, {"grade": "insufficient"}, "refuse"),
+        (after_grade, {"grade": "ok"}, "generate"),
+        (after_grade, {"grade": "retry", "rewrite_count": 0}, "rewrite"),
+        (after_grade, {"grade": "refuse"}, "refuse"),
         (after_tools, {"action_required": True}, "confirm_action"),
         (after_tools, {"action_required": False}, "generate"),
         (after_verify, {"verification": "pass"}, "output_guard"),
-        (after_verify, {"verification": "retry", "rewrite_count": 1}, "rewrite"),
+        (after_verify, {"verification": "retry", "rewrite_count": 0}, "rewrite"),
         (after_verify, {"verification": "fail"}, "refuse"),
         (after_output_guard, {}, "__end__"),
         (after_output_guard, {"refusal_reason": "blocked"}, "refuse"),
@@ -118,9 +118,9 @@ def test_max_loop_guard_refuses(edge: EdgeFunction) -> None:
     state = create_initial_state(
         context=_context(),
         question="Retry this.",
-        max_rewrites=2,
+        max_rewrites=1,
     )
-    state["rewrite_count"] = 2
+    state["rewrite_count"] = 1
     if edge is after_grade:
         state["grade"] = "retry"
     else:

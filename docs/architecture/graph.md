@@ -80,12 +80,15 @@ graph TD;
   wrapper. The span hook is intentionally a no-op until OTel instrumentation is
   enabled.
 - `recursion_limit` and `max_rewrites` are independent: the first bounds all
-  graph steps, while the second explicitly bounds rewrite loops.
+  graph steps, while the second is restricted to zero or one retrieval retry.
 - Offline and CI construction injects `FakeLlm` and `HashingEmbedder`; it does
   not require cloud credentials.
-- Retrieval and tools remain topology stubs. Generation and verification use
-  schema-constrained LLM calls, strict citation checks, and extractive fallback.
-  Guards, refusal, and escalation are executable safety behavior.
+- Rewrite, rerank, MMR, parent expansion, and sufficiency grading are bounded,
+  toggleable stages. Every rewritten query passes `InputGuard`; reranking caps
+  50 candidates to 8 evidence items. Retrieval and tools remain topology stubs.
+- Generation and verification use schema-constrained LLM calls, strict citation
+  checks, and extractive fallback. Guards, refusal, and escalation are executable
+  safety behavior.
 
 Regenerate this page with:
 

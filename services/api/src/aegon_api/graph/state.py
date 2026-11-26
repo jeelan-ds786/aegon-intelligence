@@ -10,7 +10,7 @@ from aegon_common.models import Citation, Evidence
 from aegon_api.generation import AnswerSentence, PromptTrace
 
 type Route = Literal["retrieve", "tools", "escalate"]
-type Grade = Literal["pass", "retry", "insufficient"]
+type Grade = Literal["ok", "retry", "refuse"]
 type Verification = Literal["pass", "retry", "fail"]
 type ModalityName = Literal["text", "multimodal"]
 
@@ -48,6 +48,8 @@ class AgentState(TypedDict, total=False):
     node_trace: Required[list[str]]
     sanitized_question: str
     rewritten_query: str
+    rewritten_queries: list[str]
+    hypothetical_document: str
     modality: ModalityName
     route: Route
     evidence: list[Evidence]
@@ -73,7 +75,7 @@ def create_initial_state(
     attachment_media_types: tuple[str, ...] = (),
     max_tokens: int = 4_000,
     max_cost_microusd: int = 100_000,
-    max_rewrites: int = 3,
+    max_rewrites: int = 1,
     evidence: tuple[Evidence, ...] = (),
 ) -> AgentState:
     """Create state only from a trusted context and bounded turn input."""
@@ -84,8 +86,8 @@ def create_initial_state(
         not media_type or len(media_type) > 255 for media_type in attachment_media_types
     ):
         raise ValueError("attachment media types are invalid")
-    if max_tokens < 1 or max_cost_microusd < 0 or max_rewrites < 0:
-        raise ValueError("turn budgets and max_rewrites must be non-negative")
+    if max_tokens < 1 or max_cost_microusd < 0 or not 0 <= max_rewrites <= 1:
+        raise ValueError("turn budgets must be valid and max_rewrites must be zero or one")
     return AgentState(
         tenant_id=context.tenant_id,
         scopes=list(context.scopes),

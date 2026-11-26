@@ -48,8 +48,8 @@ def after_grade(state: AgentState) -> NodeDestination:
     terminal = _terminal_destination(state)
     if terminal is not None:
         return terminal
-    grade = state.get("grade", "insufficient")
-    if grade == "pass":
+    grade = state.get("grade", "refuse")
+    if grade == "ok":
         return "generate"
     if grade == "retry" and state["rewrite_count"] < state["max_rewrites"]:
         return "rewrite"

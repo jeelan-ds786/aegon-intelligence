@@ -43,6 +43,15 @@ model testing. CI must continue to inject `FakeLlm`, and production must inject
 depends on the selected model, quantization, local hardware, and Ollama version,
 so real-daemon checks must remain opt-in rather than part of deterministic CI.
 
+The opt-in rewrite/grade schema check records the exact Ollama tag and digest in pytest's
+test properties:
+
+```shell
+AEGON_OLLAMA_MODEL=qwen3:8b \
+  pytest services/api/tests/test_ir.py::test_ollama_rewrite_and_grade_schema_compatibility \
+  --junitxml=ollama-ir.xml
+```
+
 ## Verification
 
 The verifier evaluates each generated atomic claim only against its cited

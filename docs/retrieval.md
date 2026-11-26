@@ -1,7 +1,8 @@
 # Hybrid retrieval
 
 The API retrieval layer returns verified text evidence. It has no dependency on an LLM,
-generation prompt, or reranker.
+generation prompt, or reranker. The graph applies query transformation and reranking only
+after this tenant-scoped retrieval boundary.
 
 ## API contract
 
@@ -86,3 +87,23 @@ pytest infra/migrations/tests/test_migrations.py::test_hybrid_retrieval_seeded_a
 
 Changing the dense `ORDER BY embedding <=> ... LIMIT ...` shape requires updating and rerunning
 that plan test against PostgreSQL with pgvector; unit mocks are not sufficient evidence.
+
+## Graph IR stages
+
+`RewriteConfig`, `RerankConfig`, and `GradeConfig` independently toggle every post-retrieval
+stage for ablations. Rewrite emits at most three schema-constrained queries and may emit one
+HyDE document when explicitly enabled. All emitted text is screened by `InputGuard`; model
+output never changes tenant identity or access scope.
+
+The `Reranker` protocol has three adapters:
+
+- `CrossEncoderReranker` wraps an injected local cross-encoder model.
+- `GeminiReranker` uses the same schema-constrained `LlmClient` boundary as other production
+  model calls.
+- `NoopReranker` retains retrieval scores for deterministic CI and ablation.
+
+Reranking accepts at most 50 guarded candidates. Content/chunk deduplication, MMR, and optional
+tenant-scoped parent expansion then produce at most 8 evidence items under a context token
+budget. Sufficiency requires deterministic top/cumulative score thresholds before an optional
+lightweight LLM judge can return `ok`, `retry`, or `refuse`. The graph permits no more than one
+retry after the initial rewrite.

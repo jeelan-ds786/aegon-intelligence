@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "git_sha": "eb6e538ad5c0667934995d61bfdf81f1bda52545",
+  "git_sha": "c1dab942fa3c1d11a3eb88d325bb9ebe238381b5",
   "dataset_hash": "5b2a48d2d9aead8f8f5b8293f68adc544c446e3f4fede9faa82760b9fed32fb8",
   "dataset_questions": 100,
   "embedding_model": "signed-feature-hashing",
   "embedding_version": "1",
-  "mode": "hybrid",
+  "ablation": "hybrid",
   "metrics": {
     "recall_at_1": 53.0,
     "recall_at_5": 72.0,
@@ -13,7 +13,7 @@
     "mrr": 0.6122777777777777,
     "ndcg_at_10": 0.6573134586902211,
     "unanswerable_false_accept_rate": 1.0,
-    "p50_latency_ms": 0.8881039999550921,
-    "p95_latency_ms": 1.0711982499856276
+    "p50_latency_ms": 1.206707995152101,
+    "p95_latency_ms": 2.0362711293273605
   }
 }

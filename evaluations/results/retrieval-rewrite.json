@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "git_sha": "c1dab942fa3c1d11a3eb88d325bb9ebe238381b5",
+  "dataset_hash": "5b2a48d2d9aead8f8f5b8293f68adc544c446e3f4fede9faa82760b9fed32fb8",
+  "dataset_questions": 100,
+  "embedding_model": "signed-feature-hashing",
+  "embedding_version": "1",
+  "ablation": "+rewrite",
+  "metrics": {
+    "recall_at_1": 64.0,
+    "recall_at_5": 72.0,
+    "recall_at_10": 72.0,
+    "mrr": 0.68,
+    "ndcg_at_10": 0.6904743802857166,
+    "unanswerable_false_accept_rate": 0.0,
+    "p50_latency_ms": 1.8942499882541597,
+    "p95_latency_ms": 3.614745181403123
+  }
+}
