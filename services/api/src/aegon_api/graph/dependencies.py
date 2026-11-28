@@ -8,6 +8,15 @@ from dataclasses import dataclass, field
 from typing import Protocol
 
 from aegon_api.guards import EvidenceGuard, InputGuard, OutputGuard
+from aegon_api.ir import (
+    GradeConfig,
+    NoopParentDocumentExpander,
+    NoopReranker,
+    ParentDocumentExpander,
+    RerankConfig,
+    Reranker,
+    RewriteConfig,
+)
 from aegon_api.llm import LlmClient
 from aegon_api.retrieval import TextEmbedder
 
@@ -58,6 +67,11 @@ class GraphDependencies:
     input_guard: InputGuard = field(default_factory=InputGuard)
     evidence_guard: EvidenceGuard = field(default_factory=EvidenceGuard)
     output_guard: OutputGuard = field(default_factory=OutputGuard)
+    reranker: Reranker = field(default_factory=NoopReranker)
+    parent_expander: ParentDocumentExpander = field(default_factory=NoopParentDocumentExpander)
+    rewrite_config: RewriteConfig = field(default_factory=RewriteConfig)
+    rerank_config: RerankConfig = field(default_factory=RerankConfig)
+    grade_config: GradeConfig = field(default_factory=GradeConfig)
     span_hook: NodeSpanHook = field(default_factory=NoOpSpanHook)
     node_timeout_seconds: float = 10.0
     generation_max_tokens: int = 1_000

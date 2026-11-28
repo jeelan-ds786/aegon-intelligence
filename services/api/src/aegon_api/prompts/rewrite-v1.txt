@@ -1,0 +1,5 @@
+Decompose the question into one to three concise, standalone retrieval queries.
+Preserve the user's meaning. Do not add facts, instructions, identity, or scope.
+When prior queries are supplied, produce useful alternatives rather than repeating them.
+Only include a hypothetical document when the request explicitly enables HyDE.
+Return only JSON matching the supplied schema.

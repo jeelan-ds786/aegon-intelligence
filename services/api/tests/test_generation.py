@@ -17,6 +17,7 @@ from aegon_api.graph import (
     create_initial_state,
     execution_config,
 )
+from aegon_api.ir import GradeConfig, RewriteConfig
 from aegon_api.llm import LlmRequest
 from aegon_common.embeddings import HashingEmbedder, HashingEmbedderConfig
 from aegon_common.models import Citation, Evidence, QuoteSpan
@@ -50,6 +51,8 @@ def _run(evidence: tuple[Evidence, ...], llm: FakeLlm) -> dict[str, object]:
         GraphDependencies(
             llm=llm,
             embedder=HashingEmbedder(HashingEmbedderConfig(dim=8)),
+            rewrite_config=RewriteConfig(enabled=False),
+            grade_config=GradeConfig(use_llm_judge=False),
         )
     )
     result = asyncio.run(

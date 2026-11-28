@@ -294,9 +294,13 @@ class FakeLlm:
         self.requests.append(request)
         if self.responses:
             content = self.responses.pop(0)
-        elif "answer_sentences" in cast(
-            dict[str, JsonValue], request.response_schema.get("properties", {})
-        ):
+        elif self._has_property(request, "queries"):
+            content = self._rewrite(request.user_prompt)
+        elif self._has_property(request, "scores"):
+            content = self._rerank(request.user_prompt)
+        elif self._has_property(request, "decision"):
+            content = '{"decision":"ok","confidence":1.0,"reason":"deterministic_fake"}'
+        elif self._has_property(request, "answer_sentences"):
             content = self._generate(request.user_prompt)
         else:
             content = self._verify(request.user_prompt)
@@ -307,6 +311,33 @@ class FakeLlm:
                 output_tokens=self.output_tokens_per_call,
                 cost_microusd=self.cost_microusd_per_call,
             ),
+        )
+
+    @staticmethod
+    def _has_property(request: LlmRequest, name: str) -> bool:
+        properties = cast(dict[str, JsonValue], request.response_schema.get("properties", {}))
+        return name in properties
+
+    @staticmethod
+    def _rewrite(prompt: str) -> str:
+        match = re.search(r"<question>\n(.*?)\n</question>", prompt, flags=re.DOTALL)
+        question = html.unescape(match.group(1)).strip() if match else "approved evidence"
+        return json.dumps(
+            {"queries": [question], "hypothetical_document": None},
+            separators=(",", ":"),
+        )
+
+    @staticmethod
+    def _rerank(prompt: str) -> str:
+        chunk_ids = re.findall(r'<evidence data-only="true" chunk-id="([^"]+)">', prompt)
+        return json.dumps(
+            {
+                "scores": [
+                    {"chunk_id": chunk_id, "score": max(0.0, 1.0 - index / 100)}
+                    for index, chunk_id in enumerate(chunk_ids)
+                ]
+            },
+            separators=(",", ":"),
         )
 
     @staticmethod

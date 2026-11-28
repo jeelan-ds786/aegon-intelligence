@@ -26,14 +26,20 @@ This runs the deterministic `signed-feature-hashing` `HashingEmbedder` without n
 or cloud credentials. JSON reports and the generated ablation table are written to
 `evaluations/results/` and `docs/evaluation/retrieval-results.md`. The runner records the git
 SHA, dataset manifest hash, embedding model and version, Recall@1/5/10, MRR, nDCG@10,
-unanswerable-query false-accept rate, and p50/p95 latency. The dense-only, sparse-only, and
-hybrid modes are all run in one invocation.
+unanswerable-query false-accept rate, and p50/p95 latency. The runner executes the additive
+`dense`, `hybrid`, `+rerank`, and `+rewrite` ablations in one invocation. The deterministic
+reranker mirrors production's top-50 to top-8 bound and refuses candidates with no informative
+lexical support.
 
 The command compares hybrid metrics to the committed baseline and exits non-zero when Recall@5
 drops by more than two percentage points or MRR drops by more than 0.02. The committed baseline
 is intentionally offline and reproducible; an optional Gemini job may use the same runner with
 a Vertex adapter, but its result must be stored separately and must never replace the CI
 baseline.
+
+The committed offline report demonstrates the acceptance lift: `+rerank` improves Recall@1
+over hybrid and eliminates false accepts on the 20 unanswerable rows; `+rewrite` further
+improves Recall@1 and MRR. Latencies are local wall-clock observations, not production SLOs.
 
 An operator-enabled job can run the optional provider without changing the deterministic gate:
 

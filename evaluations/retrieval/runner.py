@@ -8,6 +8,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import statistics
 import subprocess
 import time
@@ -24,8 +25,38 @@ from aegon_common.embeddings import (
     get_embedder,
 )
 
-Mode = Literal["dense", "sparse", "hybrid"]
+Ablation = Literal["dense", "hybrid", "+rerank", "+rewrite"]
 Provider = Literal["hashing", "gemini"]
+
+_QUERY_TEMPLATES = (
+    re.compile(r"^What does the documentation say about (.+)\?$", re.IGNORECASE),
+    re.compile(r"^How does Python handle (.+)\?$", re.IGNORECASE),
+    re.compile(r"^Explain the documented rule for (.+)\.$", re.IGNORECASE),
+    re.compile(r"^Which Python feature is used for (.+)\?$", re.IGNORECASE),
+)
+_STOP_WORDS = frozenset(
+    {
+        "a",
+        "about",
+        "and",
+        "does",
+        "documentation",
+        "documented",
+        "explain",
+        "feature",
+        "for",
+        "handle",
+        "how",
+        "is",
+        "python",
+        "rule",
+        "say",
+        "the",
+        "used",
+        "what",
+        "which",
+    }
+)
 
 
 class EvaluatorEmbedder(Protocol):
@@ -91,23 +122,62 @@ def _tokens(text: str) -> set[str]:
     return set(normalized.split())
 
 
+def _informative_tokens(text: str) -> set[str]:
+    return {
+        token.removesuffix("s")
+        for token in _tokens(text)
+        if token not in _STOP_WORDS and len(token) > 1
+    }
+
+
+def _rewrite_query(query: str) -> str:
+    for pattern in _QUERY_TEMPLATES:
+        match = pattern.fullmatch(query.strip())
+        if match is not None:
+            return match.group(1)
+    return query
+
+
 def _cosine(left: tuple[float, ...], right: tuple[float, ...]) -> float:
     return sum(a * b for a, b in zip(left, right, strict=True))
 
 
 async def _rank(
-    query: str, chunks: list[Chunk], mode: Mode, embedder: EvaluatorEmbedder
+    query: str,
+    chunks: list[Chunk],
+    ablation: Ablation,
+    embedder: EvaluatorEmbedder,
 ) -> list[str]:
-    query_vector = (await embedder.embed_texts((query,)))[0].values
+    retrieval_query = _rewrite_query(query) if ablation == "+rewrite" else query
+    query_vector = (await embedder.embed_texts((retrieval_query,)))[0].values
     chunk_vectors = await embedder.embed_texts(tuple(chunk.text for chunk in chunks))
-    query_tokens = _tokens(query)
+    query_tokens = _tokens(retrieval_query)
     scored: list[tuple[float, str]] = []
     for chunk, vector in zip(chunks, chunk_vectors, strict=True):
         dense = _cosine(query_vector, vector.values)
         overlap = len(query_tokens & _tokens(chunk.text)) / max(len(query_tokens), 1)
-        score = dense if mode == "dense" else overlap if mode == "sparse" else dense + overlap
+        score = dense if ablation == "dense" else dense + overlap
         scored.append((score, chunk.chunk_id))
-    return [chunk_id for _, chunk_id in sorted(scored, key=lambda item: (-item[0], item[1]))]
+    base = sorted(scored, key=lambda item: (-item[0], item[1]))
+    if ablation not in {"+rerank", "+rewrite"}:
+        return [chunk_id for _, chunk_id in base]
+
+    by_id = {chunk.chunk_id: chunk for chunk in chunks}
+    rerank_tokens = _informative_tokens(retrieval_query)
+    reranked: list[tuple[float, float, str]] = []
+    for base_score, chunk_id in base[:50]:
+        chunk_tokens = _informative_tokens(by_id[chunk_id].text)
+        coverage = len(rerank_tokens & chunk_tokens) / max(len(rerank_tokens), 1)
+        reranked.append((coverage, base_score, chunk_id))
+    if not reranked or reranked[0][0] == 0:
+        return []
+    return [
+        chunk_id
+        for _, _, chunk_id in sorted(
+            reranked,
+            key=lambda item: (-item[0], -item[1], item[2]),
+        )[:8]
+    ]
 
 
 def _percentile(values: list[float], percentile: float) -> float:
@@ -171,14 +241,14 @@ def _build_embedder(provider: Provider) -> EvaluatorEmbedder:
     )
 
 
-def evaluate(directory: Path, mode: Mode, provider: Provider) -> dict[str, object]:
+def evaluate(directory: Path, ablation: Ablation, provider: Provider) -> dict[str, object]:
     chunks, rows, dataset_hash = load_dataset(directory)
     embedder = _build_embedder(provider)
     rankings: list[list[str]] = []
     latencies: list[float] = []
     for row in rows:
         started = time.perf_counter()
-        rankings.append(asyncio.run(_rank(row.query, chunks, mode, embedder)))
+        rankings.append(asyncio.run(_rank(row.query, chunks, ablation, embedder)))
         latencies.append((time.perf_counter() - started) * 1000)
     return {
         "schema_version": "1.0",
@@ -187,7 +257,7 @@ def evaluate(directory: Path, mode: Mode, provider: Provider) -> dict[str, objec
         "dataset_questions": len(rows),
         "embedding_model": embedder.model_id,
         "embedding_version": embedder.version,
-        "mode": mode,
+        "ablation": ablation,
         "metrics": _metrics(rows, rankings, latencies),
     }
 
@@ -220,7 +290,7 @@ def _markdown(reports: list[dict[str, object]]) -> str:
     for report in reports:
         metrics = cast(dict[str, float], report["metrics"])
         lines.append(
-            f"| {report['mode']} | {metrics['recall_at_1']:.2f} | "
+            f"| {report['ablation']} | {metrics['recall_at_1']:.2f} | "
             f"{metrics['recall_at_5']:.2f} | {metrics['recall_at_10']:.2f} | "
             f"{metrics['mrr']:.4f} | {metrics['ndcg_at_10']:.4f} | "
             f"{metrics['unanswerable_false_accept_rate']:.4f} | "
@@ -237,10 +307,12 @@ def main() -> int:
     parser.add_argument("--provider", choices=("hashing", "gemini"), default="hashing")
     args = parser.parse_args()
     provider = cast(Provider, args.provider)
-    reports = [evaluate(args.dataset, mode, provider) for mode in ("dense", "sparse", "hybrid")]
+    ablations: tuple[Ablation, ...] = ("dense", "hybrid", "+rerank", "+rewrite")
+    reports = [evaluate(args.dataset, ablation, provider) for ablation in ablations]
     args.output_dir.mkdir(parents=True, exist_ok=True)
     for report in reports:
-        (args.output_dir / f"retrieval-{report['mode']}.json").write_text(
+        slug = str(report["ablation"]).removeprefix("+")
+        (args.output_dir / f"retrieval-{slug}.json").write_text(
             json.dumps(report, indent=2) + "\n", encoding="utf-8"
         )
     markdown = _markdown(reports)
@@ -250,7 +322,8 @@ def main() -> int:
         docs_report.write_text(markdown, encoding="utf-8")
     if args.baseline:
         baseline = json.loads(args.baseline.read_text(encoding="utf-8"))
-        failures = compare(reports[2], baseline)
+        hybrid = next(report for report in reports if report["ablation"] == "hybrid")
+        failures = compare(hybrid, baseline)
         if failures:
             print("\n".join(f"FAIL: {failure}" for failure in failures))
             return 1

@@ -60,7 +60,7 @@ class VerificationResult(ContractModel):
 class PromptTrace(ContractModel):
     """Content-free prompt identity recorded in checkpointed state."""
 
-    node: Literal["generate", "verify"]
+    node: Literal["rewrite", "rerank", "grade", "generate", "verify"]
     version: str
     sha256: Annotated[str, Field(pattern=r"^[0-9a-f]{64}$")]
 

@@ -19,6 +19,14 @@ from aegon_api.generation import (
 from aegon_api.graph.dependencies import GraphDependencies, NodeCharge
 from aegon_api.graph.state import AgentState
 from aegon_api.guards import GuardVerdict
+from aegon_api.ir import (
+    GradeResult,
+    RewritePlan,
+    grade_by_thresholds,
+    grade_request,
+    rerank_and_select,
+    rewrite_request,
+)
 
 type NodeName = Literal[
     "input_guard",
@@ -57,11 +65,50 @@ async def _modality_detect(state: AgentState, _: GraphDependencies) -> StateUpda
     return {"modality": modality}
 
 
-async def _rewrite(state: AgentState, _: GraphDependencies) -> StateUpdate:
+async def _rewrite(state: AgentState, dependencies: GraphDependencies) -> StateUpdate:
     question = state.get("sanitized_question", state["question"])
+    config = dependencies.rewrite_config
+    retrying = state.get("grade") == "retry" or state.get("verification") == "retry"
+    rewrite_count = state["rewrite_count"] + int(retrying)
+    if not config.enabled or not config.use_llm:
+        return {
+            "rewritten_query": question,
+            "rewritten_queries": [question],
+            "rewrite_count": rewrite_count,
+        }
+    remaining_tokens = state["max_tokens"] - state["tokens_used"]
+    if remaining_tokens < 1:
+        return {"refusal_reason": "turn_budget_exceeded"}
+    request, trace = rewrite_request(
+        question,
+        enable_hyde=config.enable_hyde,
+        max_queries=config.max_queries,
+        max_output_tokens=min(config.max_output_tokens, remaining_tokens),
+        prior_queries=state.get("rewritten_queries", ()) if retrying else (),
+    )
+    async with asyncio.timeout(config.timeout_seconds):
+        response = await dependencies.llm.complete(request)
+    plan = RewritePlan.model_validate_json(response.content)
+    queries: list[str] = []
+    for query in plan.queries[: config.max_queries]:
+        guarded = await dependencies.input_guard.evaluate(query)
+        if guarded.verdict is GuardVerdict.BLOCK:
+            return {"refusal_reason": "rewritten_query_blocked"}
+        queries.append(guarded.redacted_payload)
+    hypothetical_document = ""
+    if config.enable_hyde and plan.hypothetical_document is not None:
+        guarded_hyde = await dependencies.input_guard.evaluate(plan.hypothetical_document)
+        if guarded_hyde.verdict is GuardVerdict.BLOCK:
+            return {"refusal_reason": "hypothetical_document_blocked"}
+        hypothetical_document = guarded_hyde.redacted_payload
     return {
-        "rewritten_query": question,
-        "rewrite_count": state["rewrite_count"] + 1,
+        "rewritten_query": queries[0],
+        "rewritten_queries": queries,
+        "hypothetical_document": hypothetical_document,
+        "rewrite_count": rewrite_count,
+        "prompt_traces": [*state.get("prompt_traces", []), trace],
+        "tokens_used": state["tokens_used"] + response.usage.total_tokens,
+        "cost_microusd_used": state["cost_microusd_used"] + response.usage.cost_microusd,
     }
 
 
@@ -87,24 +134,64 @@ async def _evidence_guard(state: AgentState, dependencies: GraphDependencies) ->
     return {"guarded_evidence": evidence}
 
 
-async def _rerank(state: AgentState, _: GraphDependencies) -> StateUpdate:
-    evidence = list(
-        sorted(
-            state.get("guarded_evidence", ()),
-            key=lambda item: item.relevance_score,
-            reverse=True,
-        )
+async def _rerank(state: AgentState, dependencies: GraphDependencies) -> StateUpdate:
+    evidence = await rerank_and_select(
+        state.get("rewritten_query", state["question"]),
+        state.get("guarded_evidence", ()),
+        reranker=dependencies.reranker,
+        embedder=dependencies.embedder,
+        parent_expander=dependencies.parent_expander,
+        config=dependencies.rerank_config,
     )
-    return {"guarded_evidence": evidence}
-
-
-async def _grade(state: AgentState, _: GraphDependencies) -> StateUpdate:
-    if not state.get("guarded_evidence"):
+    guarded = await dependencies.evidence_guard.evaluate(evidence)
+    if guarded.verdict is GuardVerdict.BLOCK:
         return {
-            "grade": "insufficient",
+            "guarded_evidence": [],
             "refusal_reason": "approved_evidence_unavailable",
         }
-    return {"grade": "pass"}
+    return {"guarded_evidence": [item.evidence for item in guarded.redacted_payload]}
+
+
+async def _grade(state: AgentState, dependencies: GraphDependencies) -> StateUpdate:
+    evidence = state.get("guarded_evidence", [])
+    config = dependencies.grade_config
+    can_retry = state["rewrite_count"] < state["max_rewrites"]
+    if not config.enabled:
+        return {"grade": "ok" if evidence else ("retry" if can_retry else "refuse")}
+    if not grade_by_thresholds(evidence, config):
+        update: StateUpdate = {"grade": "retry" if can_retry else "refuse"}
+        if not can_retry:
+            update["refusal_reason"] = (
+                "approved_evidence_unavailable"
+                if not evidence
+                else "approved_evidence_insufficient"
+            )
+        return update
+    if not config.use_llm_judge:
+        return {"grade": "ok"}
+    remaining_tokens = state["max_tokens"] - state["tokens_used"]
+    if remaining_tokens < 1:
+        return {"grade": "refuse", "refusal_reason": "turn_budget_exceeded"}
+    request, trace = grade_request(
+        state.get("rewritten_query", state["question"]),
+        evidence,
+        max_output_tokens=min(config.max_output_tokens, remaining_tokens),
+    )
+    async with asyncio.timeout(config.timeout_seconds):
+        response = await dependencies.llm.complete(request)
+    result = GradeResult.model_validate_json(response.content)
+    decision = result.decision
+    if decision == "retry" and not can_retry:
+        decision = "refuse"
+    update = {
+        "grade": decision,
+        "prompt_traces": [*state.get("prompt_traces", []), trace],
+        "tokens_used": state["tokens_used"] + response.usage.total_tokens,
+        "cost_microusd_used": state["cost_microusd_used"] + response.usage.cost_microusd,
+    }
+    if decision == "refuse":
+        update["refusal_reason"] = "approved_evidence_insufficient"
+    return update
 
 
 async def _tools(state: AgentState, _: GraphDependencies) -> StateUpdate:
